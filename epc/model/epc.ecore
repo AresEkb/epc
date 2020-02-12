@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="epc" nsURI="http://www.example.org/epc" nsPrefix="epc">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NameRequired"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="NameRequired" value="Tuple {&#xA;  message = 'Model should have a name',&#xA;  status = name &lt;> null and name.size() > 0,&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//ModelElement" containment="true" eOpposite="#//ModelElement/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
+        eType="#//Connection" containment="true" eOpposite="#//Connection/model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
+        eOpposite="#//Model/elements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//ModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NameRequired"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="NameRequired" value="Tuple {&#xA;  message = 'Model element should have a name',&#xA;  status = name &lt;> null and name.size() > 0,&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrganizationUnit" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//ModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Information" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaperDocument" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectronicDocument" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataBase" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//Gate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//Gate">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="TrggerSingleFunction"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or gate should trigger at most one function',&#xA;  status = model.connections->select(source = self and target.oclIsKindOf(Function))->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//Gate">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="TrggerSingleFunction"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Xor gate should trigger at most one function',&#xA;  status = model.connections->select(source = self and target.oclIsKindOf(Function))->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="SourceNotEqualTarget"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="SourceNotEqualTarget" value="Tuple {&#xA;  status = source &lt;> target,&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//ModelElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//ModelElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
+        eOpposite="#//Model/connections"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlFlow" eSuperTypes="#//Connection">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="TwoGatesControlFlow"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="TwoGatesControlFlow" value="Tuple {&#xA;  message = 'Gates shouldn\'t be connected directly',&#xA;  status = not source.oclIsKindOf(Gate) or not target.oclIsKindOf(Gate),&#xA;  severity = 1&#xA;}.status"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationFlow" eSuperTypes="#//Connection">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="FunctionInformationFlow"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="FunctionInformationFlow" value="Tuple {&#xA;  status = source.oclIsKindOf(Function) and target.oclIsKindOf(Resource) or&#xA;    source.oclIsKindOf(Resource) and target.oclIsKindOf(Function),&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//InformationFlowKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participation" eSuperTypes="#//Connection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//ParticipationKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//Connection"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="InformationFlowKind">
+    <eLiterals name="unknown"/>
+    <eLiterals name="changes" value="1"/>
+    <eLiterals name="outputs" value="2"/>
+    <eLiterals name="creates" value="3"/>
+    <eLiterals name="usedBy" value="4"/>
+    <eLiterals name="inputFor" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParticipationKind">
+    <eLiterals name="unknown"/>
+    <eLiterals name="performs" value="1"/>
+    <eLiterals name="supports" value="2"/>
+    <eLiterals name="controls" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

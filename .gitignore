@@ -1,0 +1,33 @@
+.gradle
+build/
+bin/
+target/
+/libs/
+.antlr-generator-3.2.0-patch.jar
+*.qvtotrace
+src-gen/
+xtend-gen/
+
+### STS ###
+.metadata
+.apt_generated
+#.classpath
+.factorypath
+#.project
+#.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/

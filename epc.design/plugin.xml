@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension point="org.eclipse.sirius.componentization">
+    <component class="epc.design.Activator"
+               id="epc.design"
+	       name="epc">
+    </component>
+  </extension>
+  <extension
+      id="epc.event.svg"
+      name="EPC Event"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/Event.svg" label="epc.event">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.function.svg"
+      name="EPC Function"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/Function.svg" label="epc.function">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.gate.svg"
+      name="EPC Gate"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/Gate.svg" label="epc.gate">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.organization.unit.svg"
+      name="EPC Organization Unit"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/OrganizationUnit.svg" label="epc.organization.unit">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.information.svg"
+      name="EPC Information"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/Information.svg" label="epc.information">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.electronic.document.svg"
+      name="EPC Electronic Document"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/ElectronicDocument.svg" label="epc.electronic.document">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.paper.document.svg"
+      name="EPC Paper Document"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/PaperDocument.svg" label="epc.paper.document">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.data.base.svg"
+      name="EPC Data Base"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/DataBase.svg" label="epc.data.base">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+</plugin>

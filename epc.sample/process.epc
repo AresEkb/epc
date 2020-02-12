@@ -1,0 +1,19 @@
+Model "Тестовая модель" {
+	description "Описание"
+	elements {
+		Function "Создание",
+		Event "Событие",
+		Event "Событие 2",
+		Information test,
+		Event qwe,
+		Event zxc
+	} connections {
+		ControlFlow
+			"Событие" ->
+			"Создание",
+		ControlFlow   "Создание" -> "Событие 2",
+		InformationFlow[changes ]"Создание" -> test,
+		ControlFlow  "Событие 2" -> qwe,
+		ControlFlow  "Событие 2" -> zxc
+	}
+}

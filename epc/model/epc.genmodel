@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/epc/src-gen" creationIcons="false" editDirectory="/epc.edit/src-gen"
+    editorDirectory="/epc.editor/src-gen" modelPluginID="epc" modelName="Epc" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <genAnnotations source="http://www.eclipse.org/OCL/GenModel">
+    <details key="Use Delegates" value="false"/>
+  </genAnnotations>
+  <foreignModel>epc.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Epc" disposableProviderFactory="true" ecorePackage="epc.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="epc.ecore#//InformationFlowKind">
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/changes"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/outputs"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/creates"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/usedBy"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//InformationFlowKind/inputFor"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="epc.ecore#//ParticipationKind">
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/performs"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/supports"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/controls"/>
+    </genEnums>
+    <genClasses ecoreClass="epc.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Model/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Model/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Model/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference epc.ecore#//Model/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference epc.ecore#//Model/connections"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="epc.ecore#//ModelElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference epc.ecore#//ModelElement/model"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="epc.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="epc.ecore#//Event"/>
+    <genClasses ecoreClass="epc.ecore#//Function"/>
+    <genClasses ecoreClass="epc.ecore#//OrganizationUnit"/>
+    <genClasses ecoreClass="epc.ecore#//Resource"/>
+    <genClasses image="false" ecoreClass="epc.ecore#//Gate"/>
+    <genClasses ecoreClass="epc.ecore#//Information"/>
+    <genClasses ecoreClass="epc.ecore#//PaperDocument"/>
+    <genClasses ecoreClass="epc.ecore#//ElectronicDocument"/>
+    <genClasses ecoreClass="epc.ecore#//DataBase"/>
+    <genClasses ecoreClass="epc.ecore#//And"/>
+    <genClasses ecoreClass="epc.ecore#//Or"/>
+    <genClasses ecoreClass="epc.ecore#//Xor"/>
+    <genClasses image="false" ecoreClass="epc.ecore#//Connection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Connection/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Connection/target"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference epc.ecore#//Connection/model"/>
+    </genClasses>
+    <genClasses ecoreClass="epc.ecore#//ControlFlow"/>
+    <genClasses ecoreClass="epc.ecore#//InformationFlow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//InformationFlow/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="epc.ecore#//Participation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Participation/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="epc.ecore#//Association"/>
+  </genPackages>
+</genmodel:GenModel>
