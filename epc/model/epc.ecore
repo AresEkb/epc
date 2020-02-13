@@ -18,8 +18,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//ModelElement" containment="true" eOpposite="#//ModelElement/model"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
-        eType="#//Connection" containment="true" eOpposite="#//Connection/model"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
@@ -38,18 +36,31 @@
   <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrganizationUnit" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//ModelElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Information" eSuperTypes="#//Resource"/>
   <eClassifiers xsi:type="ecore:EClass" name="PaperDocument" eSuperTypes="#//Resource"/>
   <eClassifiers xsi:type="ecore:EClass" name="ElectronicDocument" eSuperTypes="#//Resource"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataBase" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//ModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="GateInputs GateOutputs AtLeastOneFunction"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="GateInputs" value="Tuple {&#xA;  message = 'Gate inputs should be either events or functions',&#xA;  status = inputs->forAll(oclIsKindOf(Event)) or inputs->forAll(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
+      <details key="GateOutputs" value="Tuple {&#xA;  message = 'Gate outputs should be either events or functions',&#xA;  status = outputs->forAll(oclIsKindOf(Event)) or outputs->forAll(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
+      <details key="AtLeastOneFunction" value="Tuple {&#xA;  message = 'Either inputs or outputs of a gate should be functions',&#xA;  status = inputs->exists(oclIsKindOf(Function)) or outputs->exists(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" lowerBound="1"
+        upperBound="-1" eType="#//NamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" lowerBound="1"
+        upperBound="-1" eType="#//NamedElement"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//Gate"/>
   <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//Gate">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="TrggerSingleFunction"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or gate should trigger at most one function',&#xA;  status = model.connections->select(source = self and target.oclIsKindOf(Function))->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
+      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or gate should trigger at most one function',&#xA;  status = outputs->selectByKind(Function)->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//Gate">
@@ -57,10 +68,10 @@
       <details key="constraints" value="TrggerSingleFunction"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Xor gate should trigger at most one function',&#xA;  status = model.connections->select(source = self and target.oclIsKindOf(Function))->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
+      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Xor gate should trigger at most one function',&#xA;  status = outputs->selectByKind(Function)->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true" eSuperTypes="#//ModelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="SourceNotEqualTarget"/>
     </eAnnotations>
@@ -68,18 +79,18 @@
       <details key="SourceNotEqualTarget" value="Tuple {&#xA;  status = source &lt;> target,&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="#//ModelElement"/>
+        eType="#//NamedElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="#//ModelElement"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
-        eOpposite="#//Model/connections"/>
+        eType="#//NamedElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ControlFlow" eSuperTypes="#//Connection">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="TwoGatesControlFlow"/>
+      <details key="constraints" value="ControlFlowSource ControlFlowTarget AtLeastOneFunction"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="TwoGatesControlFlow" value="Tuple {&#xA;  message = 'Gates shouldn\'t be connected directly',&#xA;  status = not source.oclIsKindOf(Gate) or not target.oclIsKindOf(Gate),&#xA;  severity = 1&#xA;}.status"/>
+      <details key="ControlFlowSource" value="Tuple {&#xA;  message = 'Control flow source should be either event or function',&#xA;  status = source.oclIsKindOf(Event) or source.oclIsKindOf(Function),&#xA;  severity = -1&#xA;}.status"/>
+      <details key="ControlFlowTarget" value="Tuple {&#xA;  message = 'Control flow target should be either event or function',&#xA;  status = target.oclIsKindOf(Event) or target.oclIsKindOf(Function),&#xA;  severity = -1&#xA;}.status"/>
+      <details key="AtLeastOneFunction" value="Tuple {&#xA;  message = 'Either source or target of a control flow should be a function',&#xA;  status = source.oclIsKindOf(Function) or target.oclIsKindOf(Function),&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InformationFlow" eSuperTypes="#//Connection">

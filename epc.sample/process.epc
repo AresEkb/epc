@@ -1,19 +1,17 @@
-Model "Тестовая модель" {
-	description "Описание"
-	elements {
-		Function "Создание",
-		Event "Событие",
-		Event "Событие 2",
-		Information test,
-		Event qwe,
-		Event zxc
-	} connections {
-		ControlFlow
-			"Событие" ->
-			"Создание",
-		ControlFlow   "Создание" -> "Событие 2",
-		InformationFlow[changes ]"Создание" -> test,
-		ControlFlow  "Событие 2" -> qwe,
-		ControlFlow  "Событие 2" -> zxc
-	}
+Model "Test model" {
+    Description "desc"
+    Function "Анализирует требования"
+    Function "Выбирает подходящую метамодель"
+    OrganizationUnit "Методолог"
+    OrganizationUnit "Аналитик"
+    Event "Поступил заказ на автоматизацию разработки"
+    Information "Примеры входных и выходных артефактов"
+    InformationFlow "Анализирует требования" outputs "Примеры входных и выходных артефактов"
+    InformationFlow "Примеры входных и выходных артефактов" inputFor "Выбирает подходящую метамодель"
+    Event "Требования проанализированы"
+    ControlFlow "Поступил заказ на автоматизацию разработки" "Анализирует требования"
+    ControlFlow "Анализирует требования" "Требования проанализированы"
+    ControlFlow "Требования проанализированы" "Выбирает подходящую метамодель"
+    Participation "Аналитик" performs "Анализирует требования"
+    Participation "Методолог" "Выбирает подходящую метамодель"
 }

@@ -77,7 +77,7 @@
         <edgeMappings name="ControlFlow" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::ControlFlow" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
           <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <centerLabelStyleDescription labelSize="12">
+            <centerLabelStyleDescription labelSize="12" showIcon="false">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
@@ -86,6 +86,38 @@
           <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="feature:kind">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="Participation" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::Participation" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="feature:kind">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+          <conditionnalStyles predicateExpression="aql:kind=epc::ParticipationKind::UNKNOWN">
+            <style sizeComputationExpression="2">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <centerLabelStyleDescription labelSize="12" showIcon="false">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </centerLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+        </edgeMappings>
+        <edgeMappings name="GateInput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:inputs">
+          <style sourceArrow="InputArrow" targetArrow="NoDecoration" sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="GateOutput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:outputs">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription labelSize="12" showIcon="false">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
@@ -171,11 +203,25 @@
             <sourceViewVariable name="sourceView"/>
             <targetViewVariable name="targetView"/>
             <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:model">
-                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::ControlFlow" referenceName="connections">
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="source" valueExpression="var:source"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="var:target"/>
-                </subModelOperations>
+              <firstModelOperations xsi:type="tool_1:Switch">
+                <cases conditionExpression="aql:source.oclIsKindOf(epc::Gate)">
+                  <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="outputs" valueExpression="var:target"/>
+                  </subModelOperations>
+                </cases>
+                <cases conditionExpression="aql:target.oclIsKindOf(epc::Gate)">
+                  <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:target">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="inputs" valueExpression="var:source"/>
+                  </subModelOperations>
+                </cases>
+                <default>
+                  <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:model">
+                    <subModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::ControlFlow" referenceName="elements">
+                      <subModelOperations xsi:type="tool_1:SetValue" featureName="source" valueExpression="var:source"/>
+                      <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="var:target"/>
+                    </subModelOperations>
+                  </subModelOperations>
+                </default>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
@@ -186,7 +232,21 @@
             <targetViewVariable name="targetView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:model">
-                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::InformationFlow" referenceName="connections">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::InformationFlow" referenceName="elements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="source" valueExpression="var:source"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="var:target"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Participation" edgeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@edgeMappings[name='Participation']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:model">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Participation" referenceName="elements">
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="source" valueExpression="var:source"/>
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="var:target"/>
                 </subModelOperations>
