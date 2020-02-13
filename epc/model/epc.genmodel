@@ -45,6 +45,7 @@
     <genClasses ecoreClass="epc.ecore#//PaperDocument"/>
     <genClasses ecoreClass="epc.ecore#//ElectronicDocument"/>
     <genClasses ecoreClass="epc.ecore#//DataBase"/>
+    <genClasses ecoreClass="epc.ecore#//System"/>
     <genClasses image="false" ecoreClass="epc.ecore#//Gate">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Gate/inputs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Gate/outputs"/>

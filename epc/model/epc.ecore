@@ -40,6 +40,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PaperDocument" eSuperTypes="#//Resource"/>
   <eClassifiers xsi:type="ecore:EClass" name="ElectronicDocument" eSuperTypes="#//Resource"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataBase" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//ModelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="GateInputs GateOutputs AtLeastOneFunction"/>

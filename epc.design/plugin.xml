@@ -4,7 +4,7 @@
   <extension point="org.eclipse.sirius.componentization">
     <component class="epc.design.Activator"
                id="epc.design"
-	       name="epc">
+           name="epc">
     </component>
   </extension>
   <extension
@@ -45,6 +45,17 @@
       name="EPC Organization Unit"
       point="org.eclipse.sirius.diagram.customBundledImageShape">
     <image imagePath="/epc.design/images/OrganizationUnit.svg" label="epc.organization.unit">
+      <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
+      <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
+      <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>
+      <borderSizeAttribute borderSizeAttribute="stroke-width"></borderSizeAttribute>
+    </image>
+  </extension>
+  <extension
+      id="epc.system.svg"
+      name="EPC System"
+      point="org.eclipse.sirius.diagram.customBundledImageShape">
+    <image imagePath="/epc.design/images/System.svg" label="epc.system">
       <borderColorIdentifier borderColorIdentifier="shape"></borderColorIdentifier>
       <borderColorAttribute borderColorAttribute="stroke"></borderColorAttribute>
       <borderSizeIdentifier borderSizeIdentifier="shape"></borderSizeIdentifier>

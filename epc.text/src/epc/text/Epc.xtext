@@ -12,7 +12,7 @@ Model returns Model: {Model}
     '}';
 
 ModelElement returns ModelElement:
-    Event | Function | OrganizationUnit |
+    Event | Function | OrganizationUnit | System |
     Resource_Impl | Information | PaperDocument | ElectronicDocument | DataBase |
     And | Or | Xor |
     ControlFlow | InformationFlow | Participation | Association;
@@ -25,6 +25,9 @@ Event returns Event: {Event}
 
 Function returns Function: {Function}
     'Function' name=EString;
+
+System returns System: {System}
+    'System' name=EString;
 
 OrganizationUnit returns OrganizationUnit: {OrganizationUnit}
     'OrganizationUnit' name=EString;
