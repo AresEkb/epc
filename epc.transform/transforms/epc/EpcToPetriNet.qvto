@@ -1,0 +1,188 @@
+modeltype EPC uses 'http://www.example.org/epc';
+modeltype PT uses 'http:///ptnet.ecore';
+
+transformation EpcToPetriNet(in epc : EPC, out pt : PT);
+
+main()
+{
+    epc.rootObjects()[Model]->toPetriNet();
+}
+
+mapping EPC::Model::toPetriNet() : PT::PetriNet
+{
+    type := PNType::PTNET;
+    id := 'model'.uniqueId();
+    name := object PT::Name { text := self.name };
+    pages := object PT::Page {
+        id := 'page'.uniqueId();
+        name := object PT::Name { text := self.name };
+        objects := self.elements->toObject();
+        // All nodes are mapped already, so we can use non-late resolve here
+        self.elements->toObjects()->forEach (objs) {
+            objects += objs;
+        };
+    };
+    'p'.startStrCounter('p');
+}
+
+mapping EPC::ModelElement::toObject() : PT::PnObject
+disjuncts
+    EPC::ModelElement::toNode,
+    EPC::ControlFlow::toArc
+{
+}
+
+mapping EPC::ModelElement::toNode() : PT::Node
+disjuncts
+    EPC::Event::toPlace,
+    EPC::Function::toTransition
+{
+}
+
+mapping EPC::Event::toPlace() : PT::Place
+{
+    id := 'p'.uniqueId();
+    name := object PT::Name { text := self.name };
+}
+
+mapping EPC::Function::toTransition() : PT::Transition
+{
+    id := 't'.uniqueId();
+    name := object PT::Name { text := self.name };
+}
+
+mapping EPC::ControlFlow::toArc() : PT::Arc
+{
+    id := 'a'.uniqueId();
+    source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
+    target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
+}
+
+mapping EPC::ModelElement::toObjects() : List(PT::PnObject)
+disjuncts
+    EPC::And::toAndEFF,
+    EPC::And::toAndFFE,
+    EPC::And::toAndFEE,
+    EPC::And::toAndEEF,
+    EPC::Gate::toObjectsUnsupported
+{
+}
+
+mapping EPC::Gate::toObjectsUnsupported() : List(PT::PnObject)
+{
+    assert fatal (false) with log('Not implemented for ' + self.metaClassName() + ' (' + self.repr() + ')');
+}
+
+mapping EPC::And::toAndEFF() : List(PT::PnObject)
+when { self.isEFF() }
+{
+    var sourceNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
+
+    var transition := object PT::Transition {
+        id := 't'.uniqueId();
+    };
+    result += transition;
+    result += object PT::Arc {
+        id := 'a'.uniqueId();
+        source := sourceNode;
+        target := transition;
+    };
+
+    self.outputs->forEach (element) {
+        var place := object PT::Place {
+            id := 'p'.uniqueId();
+        };
+        result += place;
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := transition;
+            target := place;
+        };
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := place;
+            target := element.resolveoneIn(EPC::ModelElement::toNode);
+        };
+    };
+}
+
+mapping EPC::And::toAndFFE() : List(PT::PnObject)
+when { self.isEFF() }
+{
+    var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
+
+    var transition := object PT::Transition {
+        id := 't'.uniqueId();
+    };
+    result += transition;
+    result += object PT::Arc {
+        id := 'a'.uniqueId();
+        source := transition;
+        target := targetNode;
+    };
+
+    self.inputs->forEach (element) {
+        var place := object PT::Place {
+            id := 'p'.uniqueId();
+        };
+        result += place;
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := element.resolveoneIn(EPC::ModelElement::toNode);
+            target := place;
+        };
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := place;
+            target := transition;
+        };
+    };
+}
+
+mapping EPC::And::toAndFEE() : List(PT::PnObject)
+when { self.isFEE() }
+{
+    var sourceNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
+    result += self.outputs->collect(element | object PT::Arc {
+        id := 'a'.uniqueId();
+        source := sourceNode;
+        target := element.resolveoneIn(EPC::ModelElement::toNode);
+    });
+}
+
+mapping EPC::And::toAndEEF() : List(PT::PnObject)
+when { self.isEEF() }
+{
+    var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
+    result += self.inputs->collect(element | object PT::Arc {
+        id := 'a'.uniqueId();
+        source := element.resolveoneIn(EPC::ModelElement::toNode);
+        target := targetNode;
+    });
+}
+
+query String::uniqueId() : String = self + self.incrStrCounter(self).toString();
+
+// Gate is E -> F1, F2, ...
+query EPC::Gate::isEFF() : Boolean =
+    self.inputs->forAll(oclIsKindOf(EPC::Event)) and
+    self.outputs->forAll(oclIsKindOf(EPC::Function)) and
+    self.inputs->size() = 1;
+
+// Gate is F1, F2, ... -> E
+query EPC::Gate::isFFE() : Boolean =
+    self.inputs->forAll(oclIsKindOf(EPC::Function)) and
+    self.outputs->forAll(oclIsKindOf(EPC::Event)) and
+    self.outputs->size() = 1;
+
+// Gate is F -> E1, E2, ...
+query EPC::Gate::isFEE() : Boolean =
+    self.inputs->forAll(oclIsKindOf(EPC::Function)) and
+    self.outputs->forAll(oclIsKindOf(EPC::Event)) and
+    self.inputs->size() = 1;
+
+// Gate is E1, E2, ... -> F
+query EPC::Gate::isEEF() : Boolean =
+    self.inputs->forAll(oclIsKindOf(EPC::Event)) and
+    self.outputs->forAll(oclIsKindOf(EPC::Function)) and
+    self.outputs->size() = 1;
