@@ -35,42 +35,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrganizationUnit" eSuperTypes="#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Information" eSuperTypes="#//Resource"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PaperDocument" eSuperTypes="#//Resource"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ElectronicDocument" eSuperTypes="#//Resource"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DataBase" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ResourceKind"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="#//ModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Gate" eSuperTypes="#//ModelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="GateInputs GateOutputs AtLeastOneFunction"/>
+      <details key="constraints" value="GateInputs GateOutputs AtLeastOneFunction TrggerSingleFunction"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
       <details key="GateInputs" value="Tuple {&#xA;  message = 'Gate inputs should be either events or functions',&#xA;  status = inputs->forAll(oclIsKindOf(Event)) or inputs->forAll(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
       <details key="GateOutputs" value="Tuple {&#xA;  message = 'Gate outputs should be either events or functions',&#xA;  status = outputs->forAll(oclIsKindOf(Event)) or outputs->forAll(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
       <details key="AtLeastOneFunction" value="Tuple {&#xA;  message = 'Either inputs or outputs of a gate should be functions',&#xA;  status = inputs->exists(oclIsKindOf(Function)) or outputs->exists(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
+      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or (xor) gate should trigger at most one function',&#xA;  status = (kind = GateKind::orGate or kind = GateKind::xorGate implies outputs->selectByKind(Function)->size() &lt;= 1),&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//GateKind"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" lowerBound="1"
         upperBound="-1" eType="#//NamedElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" lowerBound="1"
         upperBound="-1" eType="#//NamedElement"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//Gate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//Gate">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="TrggerSingleFunction"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or gate should trigger at most one function',&#xA;  status = outputs->selectByKind(Function)->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
-    </eAnnotations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//Gate">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="TrggerSingleFunction"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Xor gate should trigger at most one function',&#xA;  status = outputs->selectByKind(Function)->size() &lt;= 1,&#xA;  severity = -1&#xA;}.status"/>
-    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true" eSuperTypes="#//ModelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -120,5 +103,17 @@
     <eLiterals name="performs" value="1"/>
     <eLiterals name="supports" value="2"/>
     <eLiterals name="controls" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GateKind">
+    <eLiterals name="andGate" literal="and"/>
+    <eLiterals name="orGate" value="1" literal="or"/>
+    <eLiterals name="xorGate" value="2" literal="xor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceKind">
+    <eLiterals name="unknown"/>
+    <eLiterals name="information" value="1"/>
+    <eLiterals name="paperDocument" value="2"/>
+    <eLiterals name="electronicDocument" value="3"/>
+    <eLiterals name="dataBase" value="4"/>
   </eClassifiers>
 </ecore:EPackage>

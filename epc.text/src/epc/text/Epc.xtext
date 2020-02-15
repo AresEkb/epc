@@ -3,7 +3,7 @@ grammar epc.text.Epc with org.eclipse.xtext.common.Terminals
 import "http://www.example.org/epc"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
-Model returns Model: {Model}
+Model returns Model:
     'Model' name=EString
     '{'
         ('Version' version=EString)?
@@ -12,49 +12,26 @@ Model returns Model: {Model}
     '}';
 
 ModelElement returns ModelElement:
-    Event | Function | OrganizationUnit | System |
-    Resource_Impl | Information | PaperDocument | ElectronicDocument | DataBase |
-    And | Or | Xor |
-    ControlFlow | InformationFlow | Participation | Association;
+    Event | Function | OrganizationUnit | Resource | System |
+    Gate | ControlFlow | InformationFlow | Participation | Association;
 
-EString returns ecore::EString:
-    STRING | ID;
-
-Event returns Event: {Event}
+Event returns Event:
     'Event' name=EString;
 
-Function returns Function: {Function}
+Function returns Function:
     'Function' name=EString;
 
-System returns System: {System}
+System returns System:
     'System' name=EString;
 
-OrganizationUnit returns OrganizationUnit: {OrganizationUnit}
+OrganizationUnit returns OrganizationUnit:
     'OrganizationUnit' name=EString;
 
-Resource_Impl returns Resource: {Resource}
-    'Resource' name=EString;
+Resource returns Resource:
+    kind=ResourceKind name=EString;
 
-Information returns Information: {Information}
-    'Information' name=EString;
-
-PaperDocument returns PaperDocument: {PaperDocument}
-    'PaperDocument' name=EString;
-
-ElectronicDocument returns ElectronicDocument: {ElectronicDocument}
-    'ElectronicDocument' name=EString;
-
-DataBase returns DataBase: {DataBase}
-    'DataBase' name=EString;
-
-And returns And: {And}
-    'And' inputs+=[NamedElement|EString]* '->' outputs+=[NamedElement|EString]*;
-
-Or returns Or: {Or}
-    'Or' inputs+=[NamedElement|EString]* '->' outputs+=[NamedElement|EString]*;
-
-Xor returns Xor: {Xor}
-    'Xor' inputs+=[NamedElement|EString]* '->' outputs+=[NamedElement|EString]*;
+Gate returns Gate:
+    kind=GateKind inputs+=[NamedElement|EString]* '->' outputs+=[NamedElement|EString]*;
 
 ControlFlow returns ControlFlow:
     'ControlFlow' source=[NamedElement|EString] target=[NamedElement|EString];
@@ -68,8 +45,19 @@ Participation returns Participation:
 Association returns Association:
     'Association' source=[NamedElement|EString] target=[NamedElement|EString];
 
+enum ResourceKind returns ResourceKind:
+    unknown = 'Resource' |
+    information = 'Information' |
+    paperDocument = 'PaperDocument' |
+    electronicDocument = 'ElectronicDocument' |
+    dataBase = 'DataBase';
+
+enum GateKind returns GateKind:
+    andGate = 'And' |
+    orGate = 'Or' |
+    xorGate = 'Xor';
+
 enum InformationFlowKind returns InformationFlowKind:
-    unknown = 'unknown' |
     changes = 'changes' |
     outputs = 'outputs' |
     creates = 'creates' |
@@ -77,7 +65,9 @@ enum InformationFlowKind returns InformationFlowKind:
     inputFor = 'inputFor';
 
 enum ParticipationKind returns ParticipationKind:
-    unknown = 'unknown' |
     performs = 'performs' |
     supports = 'supports' |
     controls = 'controls';
+
+EString returns ecore::EString:
+    STRING | ID;

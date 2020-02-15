@@ -25,6 +25,18 @@
       <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/supports"/>
       <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ParticipationKind/controls"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="epc.ecore#//GateKind">
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//GateKind/andGate"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//GateKind/orGate"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//GateKind/xorGate"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="epc.ecore#//ResourceKind">
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ResourceKind/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ResourceKind/information"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ResourceKind/paperDocument"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ResourceKind/electronicDocument"/>
+      <genEnumLiterals ecoreEnumLiteral="epc.ecore#//ResourceKind/dataBase"/>
+    </genEnums>
     <genClasses ecoreClass="epc.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Model/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Model/description"/>
@@ -40,19 +52,15 @@
     <genClasses ecoreClass="epc.ecore#//Event"/>
     <genClasses ecoreClass="epc.ecore#//Function"/>
     <genClasses ecoreClass="epc.ecore#//OrganizationUnit"/>
-    <genClasses ecoreClass="epc.ecore#//Resource"/>
-    <genClasses ecoreClass="epc.ecore#//Information"/>
-    <genClasses ecoreClass="epc.ecore#//PaperDocument"/>
-    <genClasses ecoreClass="epc.ecore#//ElectronicDocument"/>
-    <genClasses ecoreClass="epc.ecore#//DataBase"/>
+    <genClasses ecoreClass="epc.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Resource/kind"/>
+    </genClasses>
     <genClasses ecoreClass="epc.ecore#//System"/>
     <genClasses image="false" ecoreClass="epc.ecore#//Gate">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute epc.ecore#//Gate/kind"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Gate/inputs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Gate/outputs"/>
     </genClasses>
-    <genClasses ecoreClass="epc.ecore#//And"/>
-    <genClasses ecoreClass="epc.ecore#//Or"/>
-    <genClasses ecoreClass="epc.ecore#//Xor"/>
     <genClasses image="false" ecoreClass="epc.ecore#//Connection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Connection/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference epc.ecore#//Connection/target"/>

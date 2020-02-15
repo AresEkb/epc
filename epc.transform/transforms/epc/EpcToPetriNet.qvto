@@ -60,10 +60,10 @@ mapping EPC::ControlFlow::toArc() : PT::Arc
 
 mapping EPC::ModelElement::toObjects() : List(PT::PnObject)
 disjuncts
-    EPC::And::toAndEFF,
-    EPC::And::toAndFFE,
-    EPC::And::toAndFEE,
-    EPC::And::toAndEEF,
+    EPC::Gate::toAndEFF,
+    EPC::Gate::toAndFFE,
+    EPC::Gate::toAndFEE,
+    EPC::Gate::toAndEEF,
     EPC::Gate::toObjectsUnsupported
 {
 }
@@ -73,7 +73,7 @@ mapping EPC::Gate::toObjectsUnsupported() : List(PT::PnObject)
     assert fatal (false) with log('Not implemented for ' + self.metaClassName() + ' (' + self.repr() + ')');
 }
 
-mapping EPC::And::toAndEFF() : List(PT::PnObject)
+mapping EPC::Gate::toAndEFF() : List(PT::PnObject)
 when { self.isEFF() }
 {
     var sourceNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
@@ -106,7 +106,7 @@ when { self.isEFF() }
     };
 }
 
-mapping EPC::And::toAndFFE() : List(PT::PnObject)
+mapping EPC::Gate::toAndFFE() : List(PT::PnObject)
 when { self.isEFF() }
 {
     var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
@@ -139,7 +139,7 @@ when { self.isEFF() }
     };
 }
 
-mapping EPC::And::toAndFEE() : List(PT::PnObject)
+mapping EPC::Gate::toAndFEE() : List(PT::PnObject)
 when { self.isFEE() }
 {
     var sourceNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
@@ -150,7 +150,7 @@ when { self.isFEE() }
     });
 }
 
-mapping EPC::And::toAndEEF() : List(PT::PnObject)
+mapping EPC::Gate::toAndEEF() : List(PT::PnObject)
 when { self.isEEF() }
 {
     var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);

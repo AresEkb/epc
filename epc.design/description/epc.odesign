@@ -18,33 +18,47 @@
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
-        <nodeMappings name="And" domainClass="epc::And">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="AND" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.gate.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
-        <nodeMappings name="Or" domainClass="epc::Or">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="OR" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.gate.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
-        <nodeMappings name="Xor" domainClass="epc::Xor">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="XOR" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.gate.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
         <nodeMappings name="OrganizationUnit" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::OrganizationUnit">
           <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.organization.unit.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
+        </nodeMappings>
+        <nodeMappings name="Resource" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::Resource">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::information">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::paperDocument">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.paper.document.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::electronicDocument">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.electronic.document.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::dataBase">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.data.base.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
         </nodeMappings>
         <nodeMappings name="System" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::System">
           <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.system.svg">
@@ -53,35 +67,14 @@
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
-        <nodeMappings name="Information" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::Information">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
+        <nodeMappings name="Gate" domainClass="epc::Gate">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.kind.toString().toUpper()" sizeComputationExpression="6" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.gate.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
-        <nodeMappings name="ElectronicDocument" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::ElectronicDocument">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.electronic.document.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
-        <nodeMappings name="PaperDocument" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::PaperDocument">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.paper.document.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
-        <nodeMappings name="DataBase" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::DataBase">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.data.base.svg">
-            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          </style>
-        </nodeMappings>
-        <edgeMappings name="ControlFlow" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::ControlFlow" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
+        <edgeMappings name="ControlFlow" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::ControlFlow" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
           <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false">
@@ -89,7 +82,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="InformationFlow" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='DataBase'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='ElectronicDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Information'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='PaperDocument']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='DataBase'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='ElectronicDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Information'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='PaperDocument']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::InformationFlow" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
+        <edgeMappings name="InformationFlow" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::InformationFlow" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
           <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false" labelExpression="feature:kind">
@@ -121,7 +114,7 @@
             </style>
           </conditionnalStyles>
         </edgeMappings>
-        <edgeMappings name="Association" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='DataBase'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='ElectronicDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Information'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='PaperDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='System']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='DataBase'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='ElectronicDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Information'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='PaperDocument'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='System']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::Association" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
+        <edgeMappings name="Association" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='System']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='System']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="epc::Association" useDomainElement="true" reconnections="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectSource'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='ReconnectTarget']">
           <style targetArrow="NoDecoration" sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false">
@@ -129,7 +122,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="GateInput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:inputs">
+        <edgeMappings name="GateInput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Gate']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:inputs">
           <style sourceArrow="InputArrow" targetArrow="NoDecoration" sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false">
@@ -137,7 +130,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="GateOutput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:outputs">
+        <edgeMappings name="GateOutput" sourceMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Gate']" targetMapping="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Event'] //@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Function']" targetFinderExpression="feature:outputs">
           <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription labelSize="12" showIcon="false">
@@ -160,33 +153,50 @@
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Function" referenceName="elements"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="And" label="%And" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='And']">
-            <variable name="container"/>
-            <viewVariable name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::And" referenceName="elements"/>
-            </initialOperation>
-          </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="Or" label="%Or" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Or']">
-            <variable name="container"/>
-            <viewVariable name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Or" referenceName="elements"/>
-            </initialOperation>
-          </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="Xor" label="%Xor" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Xor']">
-            <variable name="container"/>
-            <viewVariable name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Xor" referenceName="elements"/>
-            </initialOperation>
-          </ownedTools>
           <ownedTools xsi:type="tool:NodeCreationDescription" name="OrganizationUnit" label="%OrganizationUnit" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='OrganizationUnit']">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::OrganizationUnit" referenceName="elements"/>
             </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:ToolGroup" name="ResourceNodes">
+            <tools xsi:type="tool:NodeCreationDescription" name="Information" label="%Information" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" iconPath="/epc.edit/icons/full/obj16/Information.gif">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Resource" referenceName="elements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::ResourceKind::information"/>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool:NodeCreationDescription" name="ElectronicDocument" label="%ElectronicDocument" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" iconPath="/epc.edit/icons/full/obj16/ElectronicDocument.gif">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Resource" referenceName="elements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::ResourceKind::electronicDocument"/>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool:NodeCreationDescription" name="PaperDocument" label="%PaperDocument" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" iconPath="/epc.edit/icons/full/obj16/PaperDocument.gif">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Resource" referenceName="elements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::ResourceKind::paperDocument"/>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool:NodeCreationDescription" name="DataBase" label="%DataBase" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Resource']" iconPath="/epc.edit/icons/full/obj16/DataBase.gif">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Resource" referenceName="elements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::ResourceKind::dataBase"/>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
           </ownedTools>
           <ownedTools xsi:type="tool:NodeCreationDescription" name="System" label="%System" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='System']">
             <variable name="container"/>
@@ -195,35 +205,32 @@
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::System" referenceName="elements"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:ToolGroup" name="InformationNodes">
-            <tools xsi:type="tool:NodeCreationDescription" name="Information" label="%Information" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Information']">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Information" referenceName="elements"/>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool:NodeCreationDescription" name="ElectronicDocument" label="%ElectronicDocument" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='ElectronicDocument']">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::ElectronicDocument" referenceName="elements"/>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool:NodeCreationDescription" name="PaperDocument" label="%PaperDocument" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='PaperDocument']">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::PaperDocument" referenceName="elements"/>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool:NodeCreationDescription" name="DataBase" label="%DataBase" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='DataBase']">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::DataBase" referenceName="elements"/>
-              </initialOperation>
-            </tools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="And" label="%And" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Gate']" iconPath="/epc.edit/icons/full/obj16/And.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Gate" referenceName="elements">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::GateKind::andGate"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Or" label="%Or" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Gate']" iconPath="/epc.edit/icons/full/obj16/Or.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Gate" referenceName="elements">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::GateKind::orGate"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Xor" label="%Xor" nodeMappings="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@nodeMappings[name='Gate']" iconPath="/epc.edit/icons/full/obj16/Xor.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="epc::Gate" referenceName="elements">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="kind" valueExpression="aql:epc::GateKind::xorGate"/>
+              </firstModelOperations>
+            </initialOperation>
           </ownedTools>
         </toolSections>
         <toolSections name="Edges" label="%Edges">
