@@ -8,21 +8,23 @@ main()
     epc.rootObjects()[Model]->toPetriNet();
 }
 
-mapping EPC::Model::toPetriNet() : PT::PetriNet
+mapping EPC::Model::toPetriNet() : PT::PetriNetDoc
 {
-    type := PNType::PTNET;
-    id := 'model'.uniqueId();
-    name := object PT::Name { text := self.name };
-    pages := object PT::Page {
-        id := 'page'.uniqueId();
-        name := object PT::Name { text := self.name };
-        objects := self.elements->toObject();
-        // All nodes are mapped already, so we can use non-late resolve in the following mapping
-        self.elements->toObjects()->forEach (objs) {
-            objects += objs;
+    nets := object PT::PetriNet {
+        type := PNType::PTNET;
+        id := 'model'.uniqueId();
+        name := self.toName();
+        pages := object PT::Page {
+            id := 'page'.uniqueId();
+            name := self.toName();
+            objects := self.elements->toObject();
+            // All nodes are mapped already, so we can use non-late resolve in the following mapping
+            self.elements->toObjects()->forEach (objs) {
+                objects += objs;
+            };
         };
+        'p'.startStrCounter('p');
     };
-    'p'.startStrCounter('p');
 }
 
 mapping EPC::ModelElement::toObject() : PT::PnObject
@@ -42,13 +44,13 @@ disjuncts
 mapping EPC::Event::toPlace() : PT::Place
 {
     id := 'p'.uniqueId();
-    name := object PT::Name { text := self.name };
+    name := self.toName();
 }
 
 mapping EPC::Function::toTransition() : PT::Transition
 {
     id := 't'.uniqueId();
-    name := object PT::Name { text := self.name };
+    name := self.toName();
 }
 
 mapping EPC::ControlFlow::toArc() : PT::Arc
@@ -383,6 +385,80 @@ when { self.kind = EPC::GateKind::orGate }
     };
 }
 
+query Integer::pow(n : Integer) : Integer = Sequence{1..n}->iterate(acc : Integer = 1 | acc * self);
+
 query String::uniqueId() : String = self + self.incrStrCounter(self).toString();
 
-query Integer::pow(n : Integer) : Integer = Sequence{1..n}->iterate(acc : Integer = 1 | acc * self);
+query String::translit() : String =
+    self.replaceAll('а', 'a')
+        .replaceAll('б', 'b')
+        .replaceAll('в', 'v')
+        .replaceAll('г', 'g')
+        .replaceAll('д', 'd')
+        .replaceAll('е', 'e')
+        .replaceAll('ё', 'yo')
+        .replaceAll('ж', 'zh')
+        .replaceAll('з', 'z')
+        .replaceAll('и', 'i')
+        .replaceAll('й', 'y')
+        .replaceAll('к', 'k')
+        .replaceAll('л', 'l')
+        .replaceAll('м', 'm')
+        .replaceAll('н', 'n')
+        .replaceAll('о', 'o')
+        .replaceAll('п', 'p')
+        .replaceAll('р', 'r')
+        .replaceAll('с', 's')
+        .replaceAll('т', 't')
+        .replaceAll('у', 'u')
+        .replaceAll('ф', 'f')
+        .replaceAll('х', 'h')
+        .replaceAll('ц', 'c')
+        .replaceAll('ч', 'ch')
+        .replaceAll('ш', 'sh')
+        .replaceAll('щ', 'sch')
+        .replaceAll('ъ', '')
+        .replaceAll('ы', 'y')
+        .replaceAll('ь', '')
+        .replaceAll('э', 'e')
+        .replaceAll('ю', 'yu')
+        .replaceAll('я', 'ya')
+        .replaceAll('А', 'A')
+        .replaceAll('Б', 'B')
+        .replaceAll('В', 'V')
+        .replaceAll('Г', 'G')
+        .replaceAll('Д', 'D')
+        .replaceAll('Е', 'E')
+        .replaceAll('Ё', 'Yo')
+        .replaceAll('Ж', 'Zh')
+        .replaceAll('З', 'Z')
+        .replaceAll('И', 'I')
+        .replaceAll('Й', 'Y')
+        .replaceAll('К', 'K')
+        .replaceAll('Л', 'L')
+        .replaceAll('М', 'M')
+        .replaceAll('Н', 'N')
+        .replaceAll('О', 'O')
+        .replaceAll('П', 'P')
+        .replaceAll('Р', 'R')
+        .replaceAll('С', 'S')
+        .replaceAll('Т', 'T')
+        .replaceAll('У', 'U')
+        .replaceAll('Ф', 'F')
+        .replaceAll('Х', 'H')
+        .replaceAll('Ц', 'C')
+        .replaceAll('Ч', 'Ch')
+        .replaceAll('Ш', 'Sh')
+        .replaceAll('Щ', 'Sch')
+        .replaceAll('Ъ', '')
+        .replaceAll('Ы', 'Y')
+        .replaceAll('Ь', '')
+        .replaceAll('Э', 'E')
+        .replaceAll('Ю', 'Yu')
+        .replaceAll('Я', 'Ya');
+
+query Model::toName() : PT::Name =
+    object PT::Name { text := self.name.translit() };
+
+query NamedElement::toName() : PT::Name =
+    object PT::Name { text := self.name.translit() };

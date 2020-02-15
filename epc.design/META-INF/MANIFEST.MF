@@ -9,7 +9,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.sirius,
- org.eclipse.sirius.common.acceleo.aql
+ org.eclipse.sirius.common.acceleo.aql,
+ org.eclipse.m2m.qvt.oml,
+ org.eclipse.m2m.qvt.oml.common,
+ org.eclipse.m2m.qvt.oml.emf.util,
+ fr.lip6.pnml.framework.utils
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: %providerName
