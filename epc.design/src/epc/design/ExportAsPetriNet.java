@@ -1,29 +1,28 @@
 package epc.design;
 
+import java.io.File;
 import java.io.OutputStreamWriter;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
 import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
-import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic;
-import org.eclipse.m2m.qvt.oml.ModelExtent;
 import org.eclipse.m2m.qvt.oml.TransformationExecutor;
 import org.eclipse.m2m.qvt.oml.util.WriterLog;
 import org.eclipse.sirius.business.api.action.AbstractExternalJavaAction;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-
-import fr.lip6.move.pnml.framework.general.PnmlExport;
+import org.pnml.tools.epnk.pnmlcoremodel.PnmlcoremodelPackage;
 
 public class ExportAsPetriNet extends AbstractExternalJavaAction {
 
@@ -38,29 +37,37 @@ public class ExportAsPetriNet extends AbstractExternalJavaAction {
             System.err.println("Selection is empty");
             return;
         }
-        EObject obj = selections.iterator().next();
+        var obj = selections.iterator().next();
         if (!(obj instanceof DSemanticDecorator)) {
             System.err.println("No DSemanticDecorator found");
             return;
         }
 
-        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        var shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        var dialog = new FileDialog(shell, SWT.OPEN);
         dialog.setFilterExtensions(new String [] {"*.pnml"});
-        String pnmlFileName = dialog.open();
-        if (!pnmlFileName.endsWith(".pnml")) {
-            pnmlFileName += ".pnml";
+        String fileName = dialog.open();
+        if (!fileName.endsWith(".pnml")) {
+            fileName += ".pnml";
         }
 
-        DSemanticDecorator item = (DSemanticDecorator) obj;
-        System.out.println("!!!");
-        System.out.println(item.getTarget().eResource().getContents().get(0));
+        var item = (DSemanticDecorator) obj;
         URI transformation = URI.createPlatformPluginURI("/epc.transform/transforms/epc/EpcToPetriNet.qvto", false);
         try {
             List<? extends EObject> result = transformModel(transformation, item.getTarget().eResource().getContents());
-            System.out.println(result);
-            PnmlExport exporter = new PnmlExport();
-            exporter.exportObject(result.get(0), pnmlFileName, true);
+
+            PnmlcoremodelPackage.eINSTANCE.getEFactoryInstance();
+            var rs = new ResourceSetImpl();
+            var uri = URI.createFileURI(new File(fileName).getAbsolutePath());
+            var res = rs.createResource(uri);
+            res.getContents().addAll(result);
+            var options = new HashMap<Object, Object>();
+            options.put(XMLResource.OPTION_ENCODING, "UTF-8");
+            res.save(options);
+            res.unload();
+
+//            var exporter = new PnmlExport();
+//            exporter.exportObject(result.get(0), fileName, true);
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
@@ -70,18 +77,18 @@ public class ExportAsPetriNet extends AbstractExternalJavaAction {
 
     private static List<? extends EObject> transformModel(URI transformation, List<? extends EObject> elements) throws Exception
     {
-        TransformationExecutor executor = new TransformationExecutor(transformation);
-        ExecutionContextImpl context = new ExecutionContextImpl();
+        var executor = new TransformationExecutor(transformation);
+        var context = new ExecutionContextImpl();
         context.setLog(new WriterLog(new OutputStreamWriter(System.out)));
-        ModelExtent input = new BasicModelExtent(elements);
-        ModelExtent output = new BasicModelExtent();
-        ExecutionDiagnostic result = executor.execute(context, input, output);
+        var input = new BasicModelExtent(elements);
+        var output = new BasicModelExtent();
+        var result = executor.execute(context, input, output);
         if (result.getSeverity() == Diagnostic.OK) {
             return output.getContents();
         }
         else {
-            IStatus status = BasicDiagnostic.toIStatus(result);
-            for (IStatus error : status.getChildren()) {
+            var status = BasicDiagnostic.toIStatus(result);
+            for (var error : status.getChildren()) {
                 System.err.println("  " + error);
             }
             throw new Exception(status.getMessage());

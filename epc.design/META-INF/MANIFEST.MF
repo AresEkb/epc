@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.qvt.oml,
  org.eclipse.m2m.qvt.oml.common,
  org.eclipse.m2m.qvt.oml.emf.util,
- fr.lip6.pnml.framework.utils
+ org.pnml.tools.epnk
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-13
 Bundle-Vendor: %providerName

@@ -1,70 +1,73 @@
-modeltype EPC uses 'http://www.example.org/epc';
-modeltype PT uses 'http:///ptnet.ecore';
+import Helpers;
 
-transformation EpcToPetriNet(in epc : EPC, out pt : PT);
+modeltype EPC uses 'http://www.example.org/epc';
+modeltype PN uses 'http://org.pnml.tools/epnk/pnmlcoremodel';
+modeltype PT uses 'http://org.pnml.tools/epnk/types/ptnet';
+
+transformation EpcToPetriNet(in epc : EPC, out pn : PN);
 
 main()
 {
     epc.rootObjects()[Model]->toPetriNet();
 }
 
-mapping EPC::Model::toPetriNet() : PT::PetriNetDoc
+mapping EPC::Model::toPetriNet() : PN::PetriNetDoc
 {
-    nets := object PT::PetriNet {
-        type := PNType::PTNET;
+    net := object PN::PetriNet {
+        type := object PT::PTNet { };
         id := 'model'.uniqueId();
         name := self.toName();
-        pages := object PT::Page {
+        page := object PN::Page {
             id := 'page'.uniqueId();
             name := self.toName();
-            objects := self.elements->toObject();
+            _object := self.elements->toObject();
             // All nodes are mapped already, so we can use non-late resolve in the following mappings
             self.elements->toObjects()->forEach (objs) {
-                objects += objs;
+                _object += objs;
             };
             // Inclusive or-gate synchronization nodes
             self.elements[EPC::Gate]->toOrSync()->forEach (objs) {
-                objects += objs;
+                _object += objs;
             };
         };
         'p'.startStrCounter('p');
     };
 }
 
-mapping EPC::ModelElement::toObject() : PT::PnObject
+mapping EPC::ModelElement::toObject() : PN::Object
 disjuncts
     EPC::ModelElement::toNode,
     EPC::ControlFlow::toArc
 {
 }
 
-mapping EPC::ModelElement::toNode() : PT::Node
+mapping EPC::ModelElement::toNode() : PN::Node
 disjuncts
     EPC::Event::toPlace,
     EPC::Function::toTransition
 {
 }
 
-mapping EPC::Event::toPlace() : PT::Place
+mapping EPC::Event::toPlace() : PN::Place
 {
     id := 'p'.uniqueId();
     name := self.toName();
 }
 
-mapping EPC::Function::toTransition() : PT::Transition
+mapping EPC::Function::toTransition() : PN::Transition
 {
     id := 't'.uniqueId();
     name := self.toName();
 }
 
-mapping EPC::ControlFlow::toArc() : PT::Arc
+mapping EPC::ControlFlow::toArc() : PN::Arc
 {
     id := 'a'.uniqueId();
     source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
     target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
 }
 
-mapping EPC::ModelElement::toObjects() : List(PT::PnObject)
+mapping EPC::ModelElement::toObjects() : List(PN::Object)
 disjuncts
     EPC::Gate::toAnd,
     EPC::Gate::toXor,
@@ -72,25 +75,25 @@ disjuncts
 {
 }
 
-mapping EPC::Gate::toAnd() : List(PT::PnObject)
+mapping EPC::Gate::toAnd() : List(PN::Object)
 when { self.kind = EPC::GateKind::andGate }
 {
-    var mainNode : PT::Transition;
+    var mainNode : PN::Transition;
 
     var inputIsFunction := self.inputs->size() = 1 and self.inputs->forAll(oclIsKindOf(EPC::Function));
     var outputIsFunction := self.outputs->size() = 1 and self.outputs->forAll(oclIsKindOf(EPC::Function));
 
     // Main node
     if (inputIsFunction) {
-        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Transition);
+        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Transition);
     }
     elif (outputIsFunction) {
-        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Transition);
+        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Transition);
     }
     else {
-        mainNode := object PT::Transition {
+        mainNode := object PN::Transition {
             id := 't'.uniqueId();
-            name := object PT::Name { text := 'And' };
+            name := object PN::Name { text := 'And' };
         };
         result += mainNode;
     };
@@ -99,22 +102,22 @@ when { self.kind = EPC::GateKind::andGate }
     if (not inputIsFunction) {
         self.inputs->forEach (element) {
             var sourceNode := element.resolveoneIn(EPC::ModelElement::toNode);
-            var place : PT::Place;
-            if (sourceNode.oclIsKindOf(PT::Place)) {
-                place := sourceNode.oclAsType(PT::Place);
+            var place : PN::Place;
+            if (sourceNode.oclIsKindOf(PN::Place)) {
+                place := sourceNode.oclAsType(PN::Place);
             }
             else {
-                place := object PT::Place {
+                place := object PN::Place {
                     id := 'p'.uniqueId();
                 };
                 result += place;
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := sourceNode;
                     target := place;
                 };
             };
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := place;
                 target := mainNode;
@@ -126,22 +129,22 @@ when { self.kind = EPC::GateKind::andGate }
     if (inputIsFunction or not outputIsFunction) {
         self.outputs->forEach (element) {
             var targetNode := element.resolveoneIn(EPC::ModelElement::toNode);
-            var place : PT::Place;
-            if (targetNode.oclIsKindOf(PT::Place)) {
-                place := targetNode.oclAsType(PT::Place);
+            var place : PN::Place;
+            if (targetNode.oclIsKindOf(PN::Place)) {
+                place := targetNode.oclAsType(PN::Place);
             }
             else {
-                place := object PT::Place {
+                place := object PN::Place {
                     id := 'p'.uniqueId();
                 };
                 result += place;
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := place;
                     target := targetNode;
                 };
             };
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := mainNode;
                 target := place;
@@ -150,25 +153,25 @@ when { self.kind = EPC::GateKind::andGate }
     };
 }
 
-mapping EPC::Gate::toXor() : List(PT::PnObject)
+mapping EPC::Gate::toXor() : List(PN::Object)
 when { self.kind = EPC::GateKind::xorGate }
 {
-    var mainNode : PT::Place;
+    var mainNode : PN::Place;
 
     var inputIsEvent := self.inputs->size() = 1 and self.inputs->forAll(oclIsKindOf(EPC::Event));
     var outputIsEvent := self.outputs->size() = 1 and self.outputs->forAll(oclIsKindOf(EPC::Event));
 
     // Main node
     if (inputIsEvent) {
-        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Place);
+        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Place);
     }
     elif (outputIsEvent) {
-        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Place);
+        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Place);
     }
     else {
-        mainNode := object PT::Place {
+        mainNode := object PN::Place {
             id := 'p'.uniqueId();
-            name := object PT::Name { text := 'Xor' };
+            name := object PN::Name { text := 'Xor' };
         };
         result += mainNode;
     };
@@ -177,22 +180,22 @@ when { self.kind = EPC::GateKind::xorGate }
     if (not inputIsEvent) {
         self.inputs->forEach (element) {
             var sourceNode := element.resolveoneIn(EPC::ModelElement::toNode);
-            var transition : PT::Transition;
-            if (sourceNode.oclIsKindOf(PT::Transition)) {
-                transition := sourceNode.oclAsType(PT::Transition);
+            var transition : PN::Transition;
+            if (sourceNode.oclIsKindOf(PN::Transition)) {
+                transition := sourceNode.oclAsType(PN::Transition);
             }
             else {
-                transition := object PT::Transition {
+                transition := object PN::Transition {
                     id := 't'.uniqueId();
                 };
                 result += transition;
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := sourceNode;
                     target := transition;
                 };
             };
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := transition;
                 target := mainNode;
@@ -204,22 +207,22 @@ when { self.kind = EPC::GateKind::xorGate }
     if (inputIsEvent or not outputIsEvent) {
         self.outputs->forEach (element) {
             var targetNode := element.resolveoneIn(EPC::ModelElement::toNode);
-            var transition : PT::Transition;
-            if (targetNode.oclIsKindOf(PT::Transition)) {
-                transition := targetNode.oclAsType(PT::Transition);
+            var transition : PN::Transition;
+            if (targetNode.oclIsKindOf(PN::Transition)) {
+                transition := targetNode.oclAsType(PN::Transition);
             }
             else {
-                transition := object PT::Transition {
+                transition := object PN::Transition {
                     id := 't'.uniqueId();
                 };
                 result += transition;
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := transition;
                     target := targetNode;
                 };
             };
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := mainNode;
                 target := transition;
@@ -228,25 +231,25 @@ when { self.kind = EPC::GateKind::xorGate }
     };
 }
 
-mapping EPC::Gate::toOr() : List(PT::PnObject)
+mapping EPC::Gate::toOr() : List(PN::Object)
 when { self.kind = EPC::GateKind::orGate }
 {
-    var mainNode : PT::Place;
+    var mainNode : PN::Place;
 
     var inputIsEvent := self.inputs->size() = 1 and self.inputs->forAll(oclIsKindOf(EPC::Event));
     var outputIsEvent := self.outputs->size() = 1 and self.outputs->forAll(oclIsKindOf(EPC::Event));
 
     // Main node
     if (inputIsEvent) {
-        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Place);
+        mainNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Place);
     }
     elif (outputIsEvent) {
-        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PT::Place);
+        mainNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode).oclAsType(PN::Place);
     }
     else {
-        mainNode := object PT::Place {
+        mainNode := object PN::Place {
             id := 'p'.uniqueId();
-            name := object PT::Name { text := 'Or' };
+            name := object PN::Name { text := 'Or' };
         };
         result += mainNode;
     };
@@ -255,7 +258,7 @@ when { self.kind = EPC::GateKind::orGate }
     if (not inputIsEvent) {
         if (self.inputs->size() = 1) {
             var sourceNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := sourceNode;
                 target := mainNode;
@@ -267,7 +270,7 @@ when { self.kind = EPC::GateKind::orGate }
             var transitions := Sequence{1..m}->collect(i | self.xmap toOrJoinTransition(i));
             result += transitions;
             transitions->forEach (transition) {
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := transition;
                     target := mainNode;
@@ -277,16 +280,16 @@ when { self.kind = EPC::GateKind::orGate }
             var k := 1;
             self.inputs->forEach (element) {
                 var sourceNode := element.resolveoneIn(EPC::ModelElement::toNode);
-                var place : PT::Place;
-                if (sourceNode.oclIsKindOf(PT::Place)) {
-                    place := sourceNode.oclAsType(PT::Place);
+                var place : PN::Place;
+                if (sourceNode.oclIsKindOf(PN::Place)) {
+                    place := sourceNode.oclAsType(PN::Place);
                 }
                 else {
-                    place := object PT::Place {
+                    place := object PN::Place {
                         id := 'p'.uniqueId();
                     };
                     result += place;
-                    result += object PT::Arc {
+                    result += object PN::Arc {
                         id := 'a'.uniqueId();
                         source := sourceNode;
                         target := place;
@@ -295,7 +298,7 @@ when { self.kind = EPC::GateKind::orGate }
                 var i := 1;
                 transitions->forEach (transition) {
                     if (i.div(k).mod(2) = 1) {
-                        result += object PT::Arc {
+                        result += object PN::Arc {
                             id := 'a'.uniqueId();
                             source := place;
                             target := transition;
@@ -312,22 +315,22 @@ when { self.kind = EPC::GateKind::orGate }
     if (inputIsEvent or not outputIsEvent) {
         if (self.outputs->size() = 1) {
             var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
-            var transition : PT::Transition;
-            if (targetNode.oclIsKindOf(PT::Transition)) {
-                transition := targetNode.oclAsType(PT::Transition);
+            var transition : PN::Transition;
+            if (targetNode.oclIsKindOf(PN::Transition)) {
+                transition := targetNode.oclAsType(PN::Transition);
             }
             else {
-                transition := object PT::Transition {
+                transition := object PN::Transition {
                     id := 't'.uniqueId();
                 };
                 result += transition;
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := transition;
                     target := targetNode;
                 };
             };
-            result += object PT::Arc {
+            result += object PN::Arc {
                 id := 'a'.uniqueId();
                 source := mainNode;
                 target := transition;
@@ -339,7 +342,7 @@ when { self.kind = EPC::GateKind::orGate }
             var transitions := Sequence{1..m}->collect(i | self.xmap toOrSplitTransition(i));
             result += transitions;
             transitions->forEach (transition) {
-                result += object PT::Arc {
+                result += object PN::Arc {
                     id := 'a'.uniqueId();
                     source := mainNode;
                     target := transition;
@@ -349,16 +352,16 @@ when { self.kind = EPC::GateKind::orGate }
             var k := 1;
             self.outputs->forEach (element) {
                 var targetNode := element.resolveoneIn(EPC::ModelElement::toNode);
-                var place : PT::Place;
-                if (targetNode.oclIsKindOf(PT::Place)) {
-                    place := targetNode.oclAsType(PT::Place);
+                var place : PN::Place;
+                if (targetNode.oclIsKindOf(PN::Place)) {
+                    place := targetNode.oclAsType(PN::Place);
                 }
                 else {
-                    place := object PT::Place {
+                    place := object PN::Place {
                         id := 'p'.uniqueId();
                     };
                     result += place;
-                    result += object PT::Arc {
+                    result += object PN::Arc {
                         id := 'a'.uniqueId();
                         source := place;
                         target := targetNode;
@@ -367,7 +370,7 @@ when { self.kind = EPC::GateKind::orGate }
                 var i := 1;
                 transitions->forEach (transition) {
                     if (i.div(k).mod(2) = 1) {
-                        result += object PT::Arc {
+                        result += object PN::Arc {
                             id := 'a'.uniqueId();
                             source := transition;
                             target := place;
@@ -381,12 +384,12 @@ when { self.kind = EPC::GateKind::orGate }
     };
 }
 
-mapping EPC::Gate::toOrSplitTransition(i : Integer) : PT::Transition
+mapping EPC::Gate::toOrSplitTransition(i : Integer) : PN::Transition
 {
     id := 't'.uniqueId();
 }
 
-mapping EPC::Gate::toOrJoinTransition(i : Integer) : PT::Transition
+mapping EPC::Gate::toOrJoinTransition(i : Integer) : PN::Transition
 {
     id := 't'.uniqueId();
 }
@@ -398,7 +401,7 @@ mapping EPC::Gate::toOrJoinTransition(i : Integer) : PT::Transition
 // https://researcher.watson.ibm.com/researcher/files/zurich-hvo/bpm-2012.pdf
 // Or-joins should be implemented differently
 // In some scenarios they can't be implemented in a Petri net at all
-mapping EPC::Gate::toOrSync() : List(PT::PnObject)
+mapping EPC::Gate::toOrSync() : List(PN::Object)
 when { self.kind = EPC::GateKind::orGate and self.inputs->size() > 1 }
 {
     var sourceOrGates := self.inputs->collect(findSourceOrGate())->asOrderedSet();
@@ -410,16 +413,16 @@ when { self.kind = EPC::GateKind::orGate and self.inputs->size() > 1 }
     assert fatal (splitTransitions->size() = joinTransitions->size()) with log('There should be the same number of split and join or-transitions');
 
     Sequence{1..splitTransitions->size()}->forEach (i) {
-        var place := object PT::Place {
+        var place := object PN::Place {
             id := 'p'.uniqueId();
         };
         result += place;
-        result += object PT::Arc {
+        result += object PN::Arc {
             id := 'a'.uniqueId();
             source := splitTransitions->at(i);
             target := place;
         };
-        result += object PT::Arc {
+        result += object PN::Arc {
             id := 'a'.uniqueId();
             source := place;
             target := joinTransitions->at(i);
@@ -432,80 +435,8 @@ query EPC::ModelElement::findSourceOrGate() : EPC::Gate =
     if connection <> null then connection.source.findSourceOrGate()
     else self.model.elements[Gate]->any(kind = EPC::GateKind::orGate and outputs->includes(self)) endif;
 
-query Model::toName() : PT::Name =
-    object PT::Name { text := self.name.translit() };
+query Model::toName() : PN::Name =
+    object PN::Name { text := self.name };
 
-query NamedElement::toName() : PT::Name =
-    object PT::Name { text := self.name.translit() };
-
-query Integer::pow(n : Integer) : Integer = Sequence{1..n}->iterate(acc : Integer = 1 | acc * self);
-
-query String::uniqueId() : String = self + self.incrStrCounter(self).toString();
-
-query String::translit() : String =
-    self.replaceAll('а', 'a')
-        .replaceAll('б', 'b')
-        .replaceAll('в', 'v')
-        .replaceAll('г', 'g')
-        .replaceAll('д', 'd')
-        .replaceAll('е', 'e')
-        .replaceAll('ё', 'yo')
-        .replaceAll('ж', 'zh')
-        .replaceAll('з', 'z')
-        .replaceAll('и', 'i')
-        .replaceAll('й', 'y')
-        .replaceAll('к', 'k')
-        .replaceAll('л', 'l')
-        .replaceAll('м', 'm')
-        .replaceAll('н', 'n')
-        .replaceAll('о', 'o')
-        .replaceAll('п', 'p')
-        .replaceAll('р', 'r')
-        .replaceAll('с', 's')
-        .replaceAll('т', 't')
-        .replaceAll('у', 'u')
-        .replaceAll('ф', 'f')
-        .replaceAll('х', 'h')
-        .replaceAll('ц', 'c')
-        .replaceAll('ч', 'ch')
-        .replaceAll('ш', 'sh')
-        .replaceAll('щ', 'sch')
-        .replaceAll('ъ', '')
-        .replaceAll('ы', 'y')
-        .replaceAll('ь', '')
-        .replaceAll('э', 'e')
-        .replaceAll('ю', 'yu')
-        .replaceAll('я', 'ya')
-        .replaceAll('А', 'A')
-        .replaceAll('Б', 'B')
-        .replaceAll('В', 'V')
-        .replaceAll('Г', 'G')
-        .replaceAll('Д', 'D')
-        .replaceAll('Е', 'E')
-        .replaceAll('Ё', 'Yo')
-        .replaceAll('Ж', 'Zh')
-        .replaceAll('З', 'Z')
-        .replaceAll('И', 'I')
-        .replaceAll('Й', 'Y')
-        .replaceAll('К', 'K')
-        .replaceAll('Л', 'L')
-        .replaceAll('М', 'M')
-        .replaceAll('Н', 'N')
-        .replaceAll('О', 'O')
-        .replaceAll('П', 'P')
-        .replaceAll('Р', 'R')
-        .replaceAll('С', 'S')
-        .replaceAll('Т', 'T')
-        .replaceAll('У', 'U')
-        .replaceAll('Ф', 'F')
-        .replaceAll('Х', 'H')
-        .replaceAll('Ц', 'C')
-        .replaceAll('Ч', 'Ch')
-        .replaceAll('Ш', 'Sh')
-        .replaceAll('Щ', 'Sch')
-        .replaceAll('Ъ', '')
-        .replaceAll('Ы', 'Y')
-        .replaceAll('Ь', '')
-        .replaceAll('Э', 'E')
-        .replaceAll('Ю', 'Yu')
-        .replaceAll('Я', 'Ya');
+query NamedElement::toName() : PN::Name =
+    object PN::Name { text := self.name };
