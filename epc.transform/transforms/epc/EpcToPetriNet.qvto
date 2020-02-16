@@ -3,6 +3,7 @@ import Helpers;
 modeltype EPC uses 'http://www.example.org/epc';
 modeltype PN uses 'http://org.pnml.tools/epnk/pnmlcoremodel';
 modeltype PT uses 'http://org.pnml.tools/epnk/types/ptnet';
+modeltype PDT uses 'http://org.pnml.tools/epnk/datatypes';
 
 transformation EpcToPetriNet(in epc : EPC, out pn : PN);
 
@@ -29,7 +30,6 @@ mapping EPC::Model::toPetriNet() : PN::PetriNetDoc
                 _object += objs;
             };
         };
-        'p'.startStrCounter('p');
     };
 }
 
@@ -40,10 +40,16 @@ disjuncts
 {
 }
 
-mapping EPC::Event::toPlace() : PN::Place
+mapping EPC::Event::toPlace() : PT::Place
 {
     id := 'p'.uniqueId();
     name := self.toName();
+    if (not self.model.elements[EPC::Connection]->exists(target = self) and
+        not self.model.elements[EPC::Gate]->exists(outputs->includes(self))) {
+        initialMarking := object PT::PTMarking {
+            text := new PDT::NonNegativeInteger('1');
+        };
+    };
 }
 
 mapping EPC::Function::toTransition() : PN::Transition
