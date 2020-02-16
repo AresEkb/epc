@@ -20,25 +20,17 @@ mapping EPC::Model::toPetriNet() : PN::PetriNetDoc
         page := object PN::Page {
             id := 'page'.uniqueId();
             name := self.toName();
-            _object := self.elements->toObject();
+            _object := self.elements->toNode();
             // All nodes are mapped already, so we can use non-late resolve in the following mappings
             self.elements->toObjects()->forEach (objs) {
                 _object += objs;
             };
-            // Inclusive or-gate synchronization nodes
             self.elements[EPC::Gate]->toOrSync()->forEach (objs) {
                 _object += objs;
             };
         };
         'p'.startStrCounter('p');
     };
-}
-
-mapping EPC::ModelElement::toObject() : PN::Object
-disjuncts
-    EPC::ModelElement::toNode,
-    EPC::ControlFlow::toArc
-{
 }
 
 mapping EPC::ModelElement::toNode() : PN::Node
@@ -60,19 +52,56 @@ mapping EPC::Function::toTransition() : PN::Transition
     name := self.toName();
 }
 
-mapping EPC::ControlFlow::toArc() : PN::Arc
-{
-    id := 'a'.uniqueId();
-    source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
-    target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
-}
-
 mapping EPC::ModelElement::toObjects() : List(PN::Object)
 disjuncts
+    EPC::ControlFlow::toArc,
     EPC::Gate::toAnd,
     EPC::Gate::toXor,
     EPC::Gate::toOr
 {
+}
+
+mapping EPC::ControlFlow::toArc() : List(PN::Object)
+{
+    if (self.source.oclIsKindOf(Event) and self.target.oclIsKindOf(Event)) {
+        var transition := object PN::Transition {
+            id := 't'.uniqueId();
+        };
+        result += transition;
+        result += object PN::Arc {
+            id := 'a'.uniqueId();
+            source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
+            target := transition;
+        };
+        result += object PN::Arc {
+            id := 'a'.uniqueId();
+            source := transition;
+            target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
+        };
+    }
+    elif (self.source.oclIsKindOf(Function) and self.target.oclIsKindOf(Function)) {
+        var place := object PN::Place {
+            id := 'p'.uniqueId();
+        };
+        result += place;
+        result += object PN::Arc {
+            id := 'a'.uniqueId();
+            source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
+            target := place;
+        };
+        result += object PN::Arc {
+            id := 'a'.uniqueId();
+            source := place;
+            target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
+        };
+    }
+    else {
+        result += object PN::Arc {
+            id := 'a'.uniqueId();
+            source := self.source.late resolveoneIn(EPC::ModelElement::toNode);
+            target := self.target.late resolveoneIn(EPC::ModelElement::toNode);
+        };
+    }
 }
 
 mapping EPC::Gate::toAnd() : List(PN::Object)
