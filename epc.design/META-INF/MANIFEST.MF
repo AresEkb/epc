@@ -15,6 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.qvt.oml.emf.util,
  fr.lip6.pnml.framework.utils
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-13
 Bundle-Vendor: %providerName
 Automatic-Module-Name: epc.design

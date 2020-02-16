@@ -18,8 +18,12 @@ mapping EPC::Model::toPetriNet() : PT::PetriNetDoc
             id := 'page'.uniqueId();
             name := self.toName();
             objects := self.elements->toObject();
-            // All nodes are mapped already, so we can use non-late resolve in the following mapping
+            // All nodes are mapped already, so we can use non-late resolve in the following mappings
             self.elements->toObjects()->forEach (objs) {
+                objects += objs;
+            };
+            // Inclusive or-gate synchronization nodes
+            self.elements[EPC::Gate]->toOrSync()->forEach (objs) {
                 objects += objs;
             };
         };
@@ -260,19 +264,17 @@ when { self.kind = EPC::GateKind::orGate }
         else {
             var n := self.inputs->size();
             var m := 2.pow(n) - 1;
-            var transitions : List(PT::Transition);
-            Sequence{1..m}->forEach (i) {
-                var transition := object PT::Transition {
-                    id := 't'.uniqueId();
-                };
-                transitions += transition;
-                result += transition;
+            var transitions := Sequence{1..m}->collect(i | self.xmap toOrJoinTransition(i));
+            result += transitions;
+            transitions->forEach (transition) {
                 result += object PT::Arc {
                     id := 'a'.uniqueId();
                     source := transition;
                     target := mainNode;
                 };
             };
+
+            var k := 1;
             self.inputs->forEach (element) {
                 var sourceNode := element.resolveoneIn(EPC::ModelElement::toNode);
                 var place : PT::Place;
@@ -290,20 +292,18 @@ when { self.kind = EPC::GateKind::orGate }
                         target := place;
                     };
                 };
-                Sequence{1..m}->forEach (i) {
-                    var transition := transitions->at(i);
-                    var x := i;
-                    Sequence{1..n}->forEach (j) {
-                        if (x.mod(2) = 1) {
-                            result += object PT::Arc {
-                                id := 'a'.uniqueId();
-                                source := place;
-                                target := transition;
-                            };
+                var i := 1;
+                transitions->forEach (transition) {
+                    if (i.div(k).mod(2) = 1) {
+                        result += object PT::Arc {
+                            id := 'a'.uniqueId();
+                            source := place;
+                            target := transition;
                         };
-                        x := x.div(2);
                     };
+                    i := i + 1;
                 };
+                k := k * 2;
             };
         };
     };
@@ -311,7 +311,7 @@ when { self.kind = EPC::GateKind::orGate }
     // Output nodes
     if (inputIsEvent or not outputIsEvent) {
         if (self.outputs->size() = 1) {
-            var targetNode := self.inputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
+            var targetNode := self.outputs->at(1).resolveoneIn(EPC::ModelElement::toNode);
             var transition : PT::Transition;
             if (targetNode.oclIsKindOf(PT::Transition)) {
                 transition := targetNode.oclAsType(PT::Transition);
@@ -336,19 +336,17 @@ when { self.kind = EPC::GateKind::orGate }
         else {
             var n := self.outputs->size();
             var m := 2.pow(n) - 1;
-            var transitions : List(PT::Transition);
-            Sequence{1..m}->forEach (i) {
-                var transition := object PT::Transition {
-                    id := 't'.uniqueId();
-                };
-                transitions += transition;
-                result += transition;
+            var transitions := Sequence{1..m}->collect(i | self.xmap toOrSplitTransition(i));
+            result += transitions;
+            transitions->forEach (transition) {
                 result += object PT::Arc {
                     id := 'a'.uniqueId();
                     source := mainNode;
                     target := transition;
                 };
             };
+
+            var k := 1;
             self.outputs->forEach (element) {
                 var targetNode := element.resolveoneIn(EPC::ModelElement::toNode);
                 var place : PT::Place;
@@ -366,24 +364,79 @@ when { self.kind = EPC::GateKind::orGate }
                         target := targetNode;
                     };
                 };
-                Sequence{1..m}->forEach (i) {
-                    var transition := transitions->at(i);
-                    var x := i;
-                    Sequence{1..n}->forEach (j) {
-                        if (x.mod(2) = 1) {
-                            result += object PT::Arc {
-                                id := 'a'.uniqueId();
-                                source := transition;
-                                target := place;
-                            };
+                var i := 1;
+                transitions->forEach (transition) {
+                    if (i.div(k).mod(2) = 1) {
+                        result += object PT::Arc {
+                            id := 'a'.uniqueId();
+                            source := transition;
+                            target := place;
                         };
-                        x := x.div(2);
                     };
+                    i := i + 1;
                 };
+                k := k * 2;
             };
         };
     };
 }
+
+mapping EPC::Gate::toOrSplitTransition(i : Integer) : PT::Transition
+{
+    id := 't'.uniqueId();
+}
+
+mapping EPC::Gate::toOrJoinTransition(i : Integer) : PT::Transition
+{
+    id := 't'.uniqueId();
+}
+
+// TODO: The simplest variant is implemented
+// Or-split should be followed by or-join
+// Another gates between or-gates are not allowed
+// Look at the following link for the problem description:
+// https://researcher.watson.ibm.com/researcher/files/zurich-hvo/bpm-2012.pdf
+// Or-joins should be implemented differently
+// In some scenarios they can't be implemented in a Petri net at all
+mapping EPC::Gate::toOrSync() : List(PT::PnObject)
+when { self.kind = EPC::GateKind::orGate and self.inputs->size() > 1 }
+{
+    var sourceOrGates := self.inputs->collect(findSourceOrGate())->asOrderedSet();
+    assert fatal (sourceOrGates->size() = 1 and sourceOrGates->at(1) <> null) with log('Source or gate not found');
+
+    var splitTransitions := sourceOrGates->at(1).resolveIn(EPC::Gate::toOrSplitTransition);
+    var joinTransitions := self.resolveIn(EPC::Gate::toOrJoinTransition);
+    assert fatal (splitTransitions->size() > 0) with log('Split or-transitions not found');
+    assert fatal (splitTransitions->size() = joinTransitions->size()) with log('There should be the same number of split and join or-transitions');
+
+    Sequence{1..splitTransitions->size()}->forEach (i) {
+        var place := object PT::Place {
+            id := 'p'.uniqueId();
+        };
+        result += place;
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := splitTransitions->at(i);
+            target := place;
+        };
+        result += object PT::Arc {
+            id := 'a'.uniqueId();
+            source := place;
+            target := joinTransitions->at(i);
+        };
+    };
+}
+
+query EPC::ModelElement::findSourceOrGate() : EPC::Gate =
+    let connection = self.model.elements[Connection]->any(target = self) in
+    if connection <> null then connection.source.findSourceOrGate()
+    else self.model.elements[Gate]->any(kind = EPC::GateKind::orGate and outputs->includes(self)) endif;
+
+query Model::toName() : PT::Name =
+    object PT::Name { text := self.name.translit() };
+
+query NamedElement::toName() : PT::Name =
+    object PT::Name { text := self.name.translit() };
 
 query Integer::pow(n : Integer) : Integer = Sequence{1..n}->iterate(acc : Integer = 1 | acc * self);
 
@@ -456,9 +509,3 @@ query String::translit() : String =
         .replaceAll('Э', 'E')
         .replaceAll('Ю', 'Yu')
         .replaceAll('Я', 'Ya');
-
-query Model::toName() : PT::Name =
-    object PT::Name { text := self.name.translit() };
-
-query NamedElement::toName() : PT::Name =
-    object PT::Name { text := self.name.translit() };

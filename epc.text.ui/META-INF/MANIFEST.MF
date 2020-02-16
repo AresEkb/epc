@@ -18,7 +18,7 @@ Require-Bundle: epc.text,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-13
 Export-Package: epc.text.ui.quickfix,
  epc.text.ui.contentassist,
  epc.text.ui.internal
