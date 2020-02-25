@@ -20,6 +20,11 @@ text {
   fill: #CCEECC;
 }
 
+.transition.focused rect {
+  stroke: #005500;
+  fill: #55AA55;
+}
+
 .arc line {
   stroke-width: 1px;
   stroke: #444444;
@@ -36,4 +41,25 @@ text {
 
 #log {
   font-size: 8px;
+}
+
+.link {
+  stroke-width: 1px;
+  stroke: #444444;
+}
+
+.information-flow-link ,
+.participation-link,
+.association-link {
+  opacity: 0.15;
+}
+
+use {
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.active use {
+  stroke: red;
+  stroke-width: 3px;
 }

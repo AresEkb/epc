@@ -335,6 +335,7 @@
             <edgeView name="edgeView"/>
           </ownedTools>
           <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsPetriNetAction" label="Export as Petri net" id="epc.design.exportAsPetriNet"/>
+          <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsJson" label="Export as JSON" id="epc.design.exportAsJson"/>
         </toolSections>
       </defaultLayer>
     </ownedRepresentations>

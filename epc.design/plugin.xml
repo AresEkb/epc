@@ -113,4 +113,11 @@
            id="epc.design.exportAsPetriNet">
      </javaActions>
   </extension>
+  <extension
+        point="org.eclipse.sirius.externalJavaAction">
+     <javaActions
+           actionClass="epc.design.ExportAsJson"
+           id="epc.design.exportAsJson">
+     </javaActions>
+  </extension>
 </plugin>
