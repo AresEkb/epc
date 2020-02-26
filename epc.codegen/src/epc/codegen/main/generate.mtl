@@ -1,0 +1,191 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.example.org/epc')]
+
+[template public generateJs(model : Model)]
+[comment @main/]
+[file (model.name.toKebabCase() + '.js', false)]
+const codeEvents = new rxjs.Subject();
+
+let instanceId = 0;
+function run(name, maxDelay) {
+  name = name || '[model.initialEvent().name/]';
+  codeEvents.next({
+    name,
+    state: { instanceId: ++instanceId, maxDelay }
+  });
+}
+
+function doWork(maxDelay) {
+  return new Promise(resolve => setTimeout(resolve, maxDelay));
+}
+
+async function runEvent(name, state) {
+  events.next({ kind: 'start', name });
+  await doWork(state.maxDelay);
+  events.next({ kind: 'end', name, state });
+  codeEvents.next({ name, state })
+}
+
+async function runFunction(name, state, action) {
+  events.next({ kind: 'start', name });
+  events.next({ kind: 'active', name });
+  await doWork(state.maxDelay);
+  const result = typeof action == 'function' ? action() : null;
+  events.next({ kind: 'inactive', name });
+  events.next({ kind: 'end', name, state, result });
+  codeEvents.next({ name, state, result })
+}
+
+codeEvents.subscribe({
+  next: ev => {
+    switch (ev.name) {
+  [for (flow : ControlFlow | model.elements->selectByKind(ControlFlow))]
+      case '[flow.source.name/]':
+        [genNamedElement(flow.target, 'ev.state')/]
+        break;
+  [/for]
+  [for (gate : Gate | model.elements->selectByKind(Gate))]
+    [for (input : NamedElement | gate.inputs)]
+      case '[input.name/]':
+    [/for]
+        [genGate(gate)/]
+        break;
+  [/for]
+    }
+  }
+});
+[/file]
+[/template]
+
+
+[template public genNamedElement(element : NamedElement, state : String)]
+  // ERROR: Not implemented
+[/template]
+
+[template public genNamedElement(element : Event, state : String)]
+runEvent('[element.name/]', [state/]);
+[/template]
+
+[template public genNamedElement(element : Function, state : String) post (trim())]
+  [let gate : Gate = model.elements->selectByKind(Gate)->any(inputs->includes(element))]
+    [if (gate.outputs->size() > 1)]
+      [if (gate.kind = GateKind::andGate)]
+runFunction('[element.name/]', [state/]);
+      [elseif (gate.kind = GateKind::xorGate)]
+runFunction('[element.name/]', [state/], () => {
+  const rnd = Math.round(Math.random() * [gate.outputs->size() - 1/]);
+  const results = ['['/][gate.outputs->collect(name.quote())->sep(', ')/][']'/];
+  return results['['/]rnd[']'/];
+});
+      [elseif (gate.kind = GateKind::orGate)]
+runFunction('[element.name/]', [state/], () => {
+  const rnd = Math.round(Math.random() * [2.pow(gate.outputs->size()) - 2/]) + 1;
+  const result = new Set();
+        [for (output : NamedElement | gate.outputs)]
+  if (rnd & [2.pow(i - 1)/]) {
+    result.add('[output.name/]');
+  }
+        [/for]
+  return result;
+});
+      [/if]
+    [else]
+runFunction('[element.name/]', [state/]);
+    [/if]
+  [else]
+runFunction('[element.name/]', [state/]);
+  [/let]
+[/template]
+
+
+[template public genGate(gate : Gate) ? (kind = GateKind::andGate) post (trim())]
+  [if (gate.inputs->size() = 1)]
+[genAndGateOutput(gate)/]
+  [else]
+ev.state.waitSet.delete(ev.name);
+if (ev.state.waitSet.size == 0) {
+  delete ev.state.waitSet;
+  [genAndGateOutput(gate)/]
+}
+  [/if]
+[/template]
+
+[template public genAndGateOutput(gate : Gate) post (trim())]
+  [if (gate.outputs->size() = 1)]
+[genNamedElement(gate.outputs->at(1), 'ev.state')/]
+  [else]
+const waitSet = new Set(['['/][gate.outputs->collect(name.quote())->sep(', ')/][']'/]);
+const state = { ...ev.state, waitSet };
+    [for (output : NamedElement | gate.outputs)]
+[genNamedElement(output, 'state')/]
+    [/for]
+  [/if]
+[/template]
+
+
+[template public genGate(gate : Gate) ? (kind = GateKind::xorGate) post (trim())]
+  [if (gate.outputs->size() = 1)]
+[genNamedElement(gate.outputs->at(1), 'ev.state')/]
+  [else]
+switch (ev.result) {
+    [for (output : NamedElement | gate.outputs)]
+  case '[output.name/]':
+    [genNamedElement(output, 'ev.state')/]
+    break;
+    [/for]
+}
+  [/if]
+[/template]
+
+
+[template public genGate(gate : Gate) ? (kind = GateKind::orGate) post (trim())]
+  [if (gate.inputs->size() = 1)]
+[genOrGateOutput(gate)/]
+  [else]
+ev.state.waitSet.delete(ev.name);
+if (ev.state.waitSet.size == 0) {
+  delete ev.state.waitSet;
+  [genOrGateOutput(gate)/]
+}
+  [/if]
+[/template]
+
+[template public genOrGateOutput(gate : Gate) post (trim())]
+  [if (gate.outputs->size() = 1)]
+[genNamedElement(gate.outputs->at(1), 'ev.state')/]
+  [else]
+{
+  const waitSet = new Set();
+    [for (output : NamedElement | gate.outputs)]
+  if (ev.result.has('[output.name/]')) {
+    waitSet.add('[output.findBranchEnd().name/]');
+  }
+    [/for]
+  const state = { ...ev.state, waitSet };
+  for (const res of ev.result) {
+    switch (res) {
+    [for (output : NamedElement | gate.outputs)]
+      case '[output.name/]':
+        [genNamedElement(output, 'state')/]
+        break;
+    [/for]
+    }
+  }
+}
+  [/if]
+[/template]
+
+[query public quote(str : String) : String = '\'' + str.replaceAll('\'', '\\' + '\'') + '\'' /]
+
+[query public pow(base : Integer, exponent : Integer) : Integer = Sequence{1..exponent}->iterate(acc : Integer = 1 | acc * base) /]
+
+[query public toKebabCase(str : String) : String = str.toLowerCase().replaceAll('[^a-z0-9]', '-') /]
+
+[query public initialEvent(model : Model) : Event =
+  model.elements->selectByKind(Event)->any(element |
+    not model.elements->selectByKind(ControlFlow)->exists(target = element) and
+    not model.elements->selectByKind(Gate)->exists(outputs->includes(element))) /]
+
+[query public findBranchEnd(element : NamedElement) : NamedElement =
+  let connection : Connection = element.model.elements->selectByKind(Connection)->any(source = element) in
+  if connection <> null then connection.target.findBranchEnd() else element endif /]

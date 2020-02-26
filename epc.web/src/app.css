@@ -1,3 +1,7 @@
+body {
+  background-color: #CACACA;
+}
+
 text {
   font-family: sans-serif;
   font-size: 10px;
@@ -12,12 +16,12 @@ text {
 .transition rect {
   stroke-width: 1px;
   stroke: #444444;
-  fill: #CCCCCC;
+  fill: #DCDCDC;
 }
 
 .transition.enabled rect {
   stroke: #44AA44;
-  fill: #CCEECC;
+  fill: #96FF96;
 }
 
 .transition.focused rect {

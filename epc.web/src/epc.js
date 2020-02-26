@@ -277,4 +277,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  document.getElementById('run').addEventListener('click', () => run(null, 500));
 });

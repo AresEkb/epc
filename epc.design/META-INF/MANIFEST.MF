@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.qvt.oml.emf.util,
  org.pnml.tools.epnk,
  org.emfjson.jackson,
- fr.lip6.pnml.framework.utils
+ fr.lip6.pnml.framework.utils,
+ epc.codegen,
+ org.eclipse.acceleo.engine
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-13
 Bundle-Vendor: %providerName
