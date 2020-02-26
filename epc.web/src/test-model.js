@@ -16,7 +16,7 @@ function doWork(maxDelay) {
 async function runEvent(name, state) {
   events.next({ kind: 'start', name });
   await doWork(state.maxDelay);
-  events.next({ kind: 'end', name, state });
+  events.next({ kind: 'end', name });
   codeEvents.next({ name, state })
 }
 
@@ -26,7 +26,7 @@ async function runFunction(name, state, action) {
   await doWork(state.maxDelay);
   const result = typeof action == 'function' ? action() : null;
   events.next({ kind: 'inactive', name });
-  events.next({ kind: 'end', name, state, result });
+  events.next({ kind: 'end', name });
   codeEvents.next({ name, state, result })
 }
 

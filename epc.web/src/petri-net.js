@@ -224,8 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function changeMarking(d) {
       if (d3.event.altKey) {
-        if (--d.count == 0) {
-          raiseEndEvent(d);
+        if (d.count > 0) {
+          if (--d.count == 0) {
+            raiseEndEvent(d);
+          }
         }
       }
       else {
