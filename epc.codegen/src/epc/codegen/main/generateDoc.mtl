@@ -48,7 +48,7 @@
   </head>
   <body>
     <h1>Процесс &laquo;[model.name/]&raquo;</h1>
-    <p>[model.description.toUpperFirst()/]</p>
+    <p>[model.description.toUpperFirst()/].</p>
     <table class="process-flow">
       <caption>Таблица 1. Порядок выполнения процесса &laquo;[model.name/]&raquo;</caption>
       <thead>
@@ -117,12 +117,12 @@
   <td>[element.ordinal()/]</td>
   <td>
   [if (element.inputs->size() > 1)]
-    Ожидается выполнение шагов [element.inputs.ordinal()->sep(', ')/].
+    Ожидается выполнение шагов [element.inputs.ordinal()->sepLast(', ', ' и ')/][if (element.outputs->size() > 1)].[/if]
   [/if]
   [if (element.outputs->size() = 1)]
-    Переход на шаг [element.outputs->at(1).ordinal()/]
+[genNextStep(element.outputs->at(1))/]
   [else]
-    Переход на шаги [element.outputs.ordinal()->sep(', ')/]
+    Переход на шаги [element.outputs.ordinal()->sepLast(', ', ' и ')/]
   [/if]
   </td>
   <td></td>
@@ -136,12 +136,12 @@
   <td>[element.ordinal()/]</td>
   <td>
   [if (element.inputs->size() > 1)]
-    Ожидается выполнение одного из шагов [element.inputs.ordinal()->sep(', ')/].
+    Ожидается выполнение одного из шагов [element.inputs.ordinal()->sepLast(', ', ' или ')/][if (element.outputs->size() > 1)].[/if]
   [/if]
   [if (element.outputs->size() = 1)]
-    Переход на шаг [element.outputs->at(1).ordinal()/]
+[genNextStep(element.outputs->at(1))/]
   [else]
-    Переход на один из шагов [element.outputs.ordinal()->sep(', ')/]
+    Переход на один из шагов [element.outputs.ordinal()->sepLast(', ', ' или ')/]
   [/if]
   </td>
   <td></td>
@@ -155,12 +155,12 @@
   <td>[element.ordinal()/]</td>
   <td>
   [if (element.inputs->size() > 1)]
-    Ожидается выполнение одного или более шагов [element.inputs.ordinal()->sep(', ')/].
+    Ожидается выполнение одного или более шагов [element.inputs.ordinal()->sepLast(', ', ' и (или) ')/][if (element.outputs->size() > 1)].[/if]
   [/if]
   [if (element.outputs->size() = 1)]
-    Переход на шаг [element.outputs->at(1).ordinal()/]
+[genNextStep(element.outputs->at(1))/]
   [else]
-    Переход на один или несколько шагов [element.outputs.ordinal()->sep(', ')/]
+    Переход на один или несколько шагов [element.outputs.ordinal()->sepLast(', ', ' и (или) ')/]
   [/if]
   </td>
   <td></td>
@@ -179,6 +179,14 @@
 
 
 [query public toKebabCase(str : String) : String = str.toLowerCase().replaceAll('[^a-z0-9]', '-') /]
+
+[query public sepLast(seq : Sequence(String), sep : String, lastSep : String) : String =
+  seq->subSequence(1, seq->size() - 1)->
+    iterate(str; res : String = '' | if res = '' then str else res + sep + str endif) +
+  lastSep + seq->last() /]
+
+[query public sepLast(seq : Sequence(Integer), sep : String, lastSep : String) : String =
+  seq.toString()->sepLast(sep, lastSep) /]
 
 [query public flowElements(model : Model) : OrderedSet(ModelElement) =
   model.elements->select(oclIsKindOf(Event) or oclIsKindOf(Function) or oclIsKindOf(Gate)) /]
