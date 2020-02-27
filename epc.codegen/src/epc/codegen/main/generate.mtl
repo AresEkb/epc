@@ -175,11 +175,16 @@ if (ev.state.waitSet.size == 0) {
   [/if]
 [/template]
 
+[comment ********** Строковые функции **************************************** /]
+
 [query public quote(str : String) : String = '\'' + str.replaceAll('\'', '\\' + '\'') + '\'' /]
 
 [query public pow(base : Integer, exponent : Integer) : Integer = Sequence{1..exponent}->iterate(acc : Integer = 1 | acc * base) /]
 
-[query public toKebabCase(str : String) : String = str.toLowerCase().replaceAll('[^a-z0-9]', '-') /]
+[query public toKebabCase(str : String) : String =
+  str.toLowerCase().replaceAll('[^a-z0-9]+', '-') /]
+
+[comment ********** Вспомогательные запросы **************************************** /]
 
 [query public initialEvent(model : Model) : Event =
   model.elements->selectByKind(Event)->any(element |

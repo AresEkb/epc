@@ -10,6 +10,30 @@
     <title>[model.name/]</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style type="text/css">
+      body, h1 {
+        counter-reset: h2counter;
+      }
+      h2 {
+        counter-increment: h2counter;
+        counter-reset: h3counter;
+      }
+      h3 {
+        counter-increment: h3counter;
+      }
+      h2:before {
+        content: counter(h2counter) ".\0000a0";
+      }
+      h3:before {
+        content: counter(h2counter) "." counter(h3counter) ".\0000a0";
+      }
+
+      figure {
+        text-align: center;
+      }
+      figure img {
+        width: 50%;
+      }
+
       table {
         border-collapse: collapse;
       }
@@ -30,6 +54,7 @@
       td p:first-of-type {
         margin-top: 0em;
       }
+
       .process-flow td:nth-of-type(1) {
         text-align: right;
       }
@@ -38,17 +63,22 @@
       .process-flow td:nth-of-type(5) {
         width: 15%;
       }
-      .performer {
+      .process-flow .performer {
         font-weight: bold;
       }
-      .performer.unknown {
+      .process-flow .performer.unknown {
         font-style: italic;
       }
     </style>
   </head>
   <body>
     <h1>Процесс &laquo;[model.name/]&raquo;</h1>
+    <h2>Общие сведения</h2>
     <p>[model.description.toUpperFirst()/].</p>
+    <figure>
+      <img src="[model.name.toKebabCase()/].png" alt="[model.name/]"/>
+      <figcaption>Рисунок 1. [model.name/]</figcaption>
+    </figure>
     <table class="process-flow">
       <caption>Таблица 1. Порядок выполнения процесса &laquo;[model.name/]&raquo;</caption>
       <thead>
@@ -65,12 +95,26 @@
         [genElement(element)/]
   [/for]
       </tbody>
-     </table>
+    </table>
+    <h2>Сведения об участниках процесса</h2>
+  [for (orgUnit : OrganizationUnit | model.elements->selectByKind(OrganizationUnit)->sortedBy(name))]
+        [genOrganizationUnit(orgUnit)/]
+  [/for]
+    <h2>Сведения о ресурсах</h2>
+    <p>В процессе используются следующие ресурсы:</p>
+    <ul>
+  [let resources : OrderedSet(Resource) = model.elements->selectByKind(Resource)->sortedBy(name)]
+    [for (resource : Resource | resources)]
+      <li>[genResource(resource)/][if (i < resources->size())];[else].[/if]</li>
+    [/for]
+  [/let]
+    </ul>
   </body>
 </html>
 [/file]
 [/template]
 
+[comment ********** Порядок выполнения **************************************** /]
 
 [template public genElement(element : ModelElement)]
 [/template]
@@ -88,7 +132,7 @@
 [template public genElement(element : Function)]
 <tr>
   <td>[element.ordinal()/]</td>
-  <td>[element.genPerformer()/] [element.name/][genNextStep(element)/]</td>
+  <td>[genPerformer(element, true)/] [element.name/][genNextStep(element)/]</td>
   <td>
   [for (p : Participation | element.model.elements->selectByKind(Participation)->
                 select(kind <> ParticipationKind::performs and target = element))]
@@ -102,14 +146,6 @@
   <td>[element.inputInformation().name->sep(', ')/]</td>
   <td>[element.outputInformation().name->sep(', ')/]</td>
 </tr>
-[/template]
-
-[template public genPerformer(function : Function)]
-  [let performer : OrganizationUnit = function.performer()]
-<span class="performer">[performer.name.toUpperFirst()/]</span>
-  [else]
-<span class="performer unknown">Участник</span>
-  [/let]
 [/template]
 
 [template public genElement(element : Gate) ? (kind = GateKind::andGate)]
@@ -177,8 +213,73 @@
 [/let]
 [/template]
 
+[comment ********** Участники **************************************** /]
 
-[query public toKebabCase(str : String) : String = str.toLowerCase().replaceAll('[^a-z0-9]', '-') /]
+[template public genOrganizationUnit(orgUnit : OrganizationUnit)]
+<h3>[orgUnit.name.toUpperFirst()/]</h3>
+  [let participations : OrderedSet(Participation) = orgUnit.model.elements->
+            selectByKind(Participation)->select(source = orgUnit)]
+  [genParticipations(orgUnit, participations, ParticipationKind::performs, 'выполняет следующие действия')/]
+  [genParticipations(orgUnit, participations, ParticipationKind::controls, 'контролирует выполнение следующих действий')/]
+  [genParticipations(orgUnit, participations, ParticipationKind::supports, 'обеспечивает выполнение следующих действий')/]
+  [/let]
+[/template]
+
+[template public genParticipations(orgUnit : OrganizationUnit, participations : OrderedSet(Participation), participationKind : ParticipationKind, action : String)]
+  [let ps : OrderedSet(Participation) = participations->select(kind = participationKind)]
+    [if (ps->size() >= 1)]
+<p>[orgUnit.name.toUpperFirst()/] [action/]:</p>
+<ul>
+    [for (p : Participation | ps)]
+  <li>
+    [if (participationKind <> ParticipationKind::performs)][genPerformer(p.target.oclAsType(Function), false)/][/if]
+    [p.target.name/][if (i < ps->size())];[else].[/if]
+  </li>
+    [/for]
+</ul>
+    [/if]
+  [/let]
+[/template]
+
+[comment ********** Ресурсы **************************************** /]
+
+[template public genResource(resource : Resource) ? (resource.kind = ResourceKind::information)]
+сведения &laquo;[resource.name.toUpperFirst()/]&raquo;
+[/template]
+
+[template public genResource(resource : Resource) ? (resource.kind = ResourceKind::dataBase)]
+база данных &laquo;[resource.name.toUpperFirst()/]&raquo;
+[/template]
+
+[template public genResource(resource : Resource) ? (resource.kind = ResourceKind::electronicDocument)]
+электронный документ &laquo;[resource.name.toUpperFirst()/]&raquo;
+[/template]
+
+[template public genResource(resource : Resource) ? (resource.kind = ResourceKind::paperDocument)]
+документ на бумажном носителе &laquo;[resource.name.toUpperFirst()/]&raquo;
+[/template]
+
+[template public genResource(resource : Resource) ? (resource.kind = ResourceKind::unknown)]
+ресурс &laquo;[resource.name.toUpperFirst()/]&raquo;
+[/template]
+
+[comment ********** Разное **************************************** /]
+
+[template public genPerformer(function : Function, upperFirst : Boolean)]
+  [let performer : OrganizationUnit = function.performer()]
+<span class="performer">[performer.name.toUpperFirst(upperFirst)/]</span>
+  [else]
+<span class="performer unknown">['участник'.toUpperFirst(upperFirst)/]</span>
+  [/let]
+[/template]
+
+[comment ********** Строковые функции **************************************** /]
+
+[query public toUpperFirst(str : String, upperFirst : Boolean) : String =
+  if upperFirst then str.toUpperFirst() else str endif /]
+
+[query public toKebabCase(str : String) : String =
+  str.toLowerCase().replaceAll('[^a-z0-9]+', '-') /]
 
 [query public sepLast(seq : Sequence(String), sep : String, lastSep : String) : String =
   seq->subSequence(1, seq->size() - 1)->
@@ -187,6 +288,8 @@
 
 [query public sepLast(seq : Sequence(Integer), sep : String, lastSep : String) : String =
   seq.toString()->sepLast(sep, lastSep) /]
+
+[comment ********** Вспомогательные запросы **************************************** /]
 
 [query public flowElements(model : Model) : OrderedSet(ModelElement) =
   model.elements->select(oclIsKindOf(Event) or oclIsKindOf(Function) or oclIsKindOf(Gate)) /]
