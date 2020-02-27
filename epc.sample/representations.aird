@@ -5,7 +5,7 @@
     <semanticResources>process.pnml</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_f4mNYE5REeqAfs-p-gIUKg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/epc.design/description/epc.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_gl6mYE5REeqAfs-p-gIUKg" name="Diagram" repPath="#_gkeb8E5REeqAfs-p-gIUKg" changeId="978a5fe8-db2f-4af6-8b1d-ff141b1498ea">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_gl6mYE5REeqAfs-p-gIUKg" name="Diagram" repPath="#_gkeb8E5REeqAfs-p-gIUKg" changeId="e69266e6-fbf3-4408-923f-e6fb063b640a">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/epc.design/description/epc.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']"/>
         <target xmi:type="epc:Model" href="process.epc#/"/>
       </ownedRepresentationDescriptors>

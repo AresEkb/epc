@@ -109,6 +109,13 @@
   <extension
         point="org.eclipse.sirius.externalJavaAction">
      <javaActions
+           actionClass="epc.design.ExportAsHtml"
+           id="epc.design.exportAsHtml">
+     </javaActions>
+  </extension>
+  <extension
+        point="org.eclipse.sirius.externalJavaAction">
+     <javaActions
            actionClass="epc.design.ExportAsPetriNet"
            id="epc.design.exportAsPetriNet">
      </javaActions>

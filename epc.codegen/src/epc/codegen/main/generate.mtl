@@ -3,7 +3,7 @@
 
 [template public generateJs(model : Model)]
 [comment @main/]
-[file (model.name.toKebabCase() + '.js', false)]
+[file (model.name.toKebabCase() + '.js', false, 'utf-8')]
 const codeEvents = new rxjs.Subject();
 
 let instanceId = 0;

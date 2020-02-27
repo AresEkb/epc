@@ -14,9 +14,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.ui.PlatformUI;
 
-import epc.codegen.main.Generate;
+import epc.codegen.main.GenerateDoc;
 
-public class ExportAsCode extends AbstractExternalJavaAction {
+public class ExportAsHtml extends AbstractExternalJavaAction {
 
     @Override
     public boolean canExecute(Collection<? extends EObject> selections) {
@@ -42,7 +42,7 @@ public class ExportAsCode extends AbstractExternalJavaAction {
         var item = (DSemanticDecorator) obj;
         var model = item.getTarget().eResource().getContents().get(0);
         try {
-            var generator = new Generate(model, new File(folderName), List.of());
+            var generator = new GenerateDoc(model, new File(folderName), List.of());
             generator.doGenerate(new BasicMonitor());
         } catch (IOException e) {
             // TODO Auto-generated catch block

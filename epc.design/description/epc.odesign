@@ -5,55 +5,55 @@
       <metamodel href="../../epc/model/epc.ecore#/"/>
       <defaultLayer name="Default">
         <nodeMappings name="Event" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::Event">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.event.svg">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.event.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="Function" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::Function">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.function.svg">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.function.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="OrganizationUnit" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::OrganizationUnit">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.organization.unit.svg">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.organization.unit.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="Resource" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::Resource">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
           <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::information">
-            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.information.svg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::paperDocument">
-            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.paper.document.svg">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.paper.document.svg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::electronicDocument">
-            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.electronic.document.svg">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.electronic.document.svg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.kind = epc::ResourceKind::dataBase">
-            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.data.base.svg">
+            <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" sizeComputationExpression="9" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.data.base.svg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -61,7 +61,7 @@
           </conditionnalStyles>
         </nodeMappings>
         <nodeMappings name="System" labelDirectEdit="//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Model']/@defaultLayer/@toolSections.2/@ownedTools[name='EditNodeName']" domainClass="epc::System">
-          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.system.svg">
+          <style xsi:type="style:BundledImageDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="aql:self.name.toUpperFirst()" labelPosition="node" resizeKind="NSEW" shape="providedShape" providedShapeID="epc.design.epc.system.svg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -334,6 +334,7 @@
             </initialOperation>
             <edgeView name="edgeView"/>
           </ownedTools>
+          <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsHtml" label="Export as HTML" id="epc.design.exportAsHtml"/>
           <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsPetriNetAction" label="Export as Petri net" id="epc.design.exportAsPetriNet"/>
           <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsJson" label="Export as JSON" id="epc.design.exportAsJson"/>
           <ownedTools xsi:type="tool_1:ExternalJavaAction" name="ExportAsCode" label="Export as Code" id="epc.design.exportAsCode"/>

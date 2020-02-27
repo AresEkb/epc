@@ -1,0 +1,207 @@
+[comment encoding = UTF-8 /]
+[module generateDoc('http://www.example.org/epc')]
+
+[template public generateDoc(model : Model)]
+[comment @main/]
+[file (model.name.toKebabCase() + '.html', false, 'utf-8')]
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>[model.name/]</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+      table {
+        border-collapse: collapse;
+      }
+      caption {
+        text-align: right;
+        margin-bottom: 0.5em;
+      }
+      tr {
+        vertical-align: top;
+      }
+      td, th {
+        border: 1px solid black;
+        padding: 0.1em 0.5em;
+      }
+      td p {
+        margin: 0.5em 0em 0em 0em;
+      }
+      td p:first-of-type {
+        margin-top: 0em;
+      }
+      .process-flow td:nth-of-type(1) {
+        text-align: right;
+      }
+      .process-flow td:nth-of-type(3),
+      .process-flow td:nth-of-type(4),
+      .process-flow td:nth-of-type(5) {
+        width: 15%;
+      }
+      .performer {
+        font-weight: bold;
+      }
+      .performer.unknown {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Процесс &laquo;[model.name/]&raquo;</h1>
+    <p>[model.description.toUpperFirst()/]</p>
+    <table class="process-flow">
+      <caption>Таблица 1. Порядок выполнения процесса &laquo;[model.name/]&raquo;</caption>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Название</th>
+          <th>Дополнительные участники</th>
+          <th>Входы</th>
+          <th>Выходы</th>
+        </tr>
+      </thead>
+      <tbody>
+  [for (element : ModelElement | model.flowElements())]
+        [genElement(element)/]
+  [/for]
+      </tbody>
+     </table>
+  </body>
+</html>
+[/file]
+[/template]
+
+
+[template public genElement(element : ModelElement)]
+[/template]
+
+[template public genElement(element : Event)]
+<tr>
+  <td>[element.ordinal()/]</td>
+  <td>Событие &laquo;[element.name/]&raquo;[genNextStep(element)/]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+[/template]
+
+[template public genElement(element : Function)]
+<tr>
+  <td>[element.ordinal()/]</td>
+  <td>[element.genPerformer()/] [element.name/][genNextStep(element)/]</td>
+  <td>
+  [for (p : Participation | element.model.elements->selectByKind(Participation)->
+                select(kind <> ParticipationKind::performs and target = element))]
+    [if (p.kind = ParticipationKind::controls)]
+    <p>Контроль: [p.source.name/]</p>
+    [elseif (p.kind = ParticipationKind::supports)]
+    <p>Поддержка: [p.source.name/]</p>
+    [/if]
+  [/for]
+  </td>
+  <td>[element.inputInformation().name->sep(', ')/]</td>
+  <td>[element.outputInformation().name->sep(', ')/]</td>
+</tr>
+[/template]
+
+[template public genPerformer(function : Function)]
+  [let performer : OrganizationUnit = function.performer()]
+<span class="performer">[performer.name.toUpperFirst()/]</span>
+  [else]
+<span class="performer unknown">Участник</span>
+  [/let]
+[/template]
+
+[template public genElement(element : Gate) ? (kind = GateKind::andGate)]
+<tr>
+  <td>[element.ordinal()/]</td>
+  <td>
+  [if (element.inputs->size() > 1)]
+    Ожидается выполнение шагов [element.inputs.ordinal()->sep(', ')/].
+  [/if]
+  [if (element.outputs->size() = 1)]
+    Переход на шаг [element.outputs->at(1).ordinal()/]
+  [else]
+    Переход на шаги [element.outputs.ordinal()->sep(', ')/]
+  [/if]
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+[/template]
+
+[template public genElement(element : Gate) ? (kind = GateKind::xorGate)]
+<tr>
+  <td>[element.ordinal()/]</td>
+  <td>
+  [if (element.inputs->size() > 1)]
+    Ожидается выполнение одного из шагов [element.inputs.ordinal()->sep(', ')/].
+  [/if]
+  [if (element.outputs->size() = 1)]
+    Переход на шаг [element.outputs->at(1).ordinal()/]
+  [else]
+    Переход на один из шагов [element.outputs.ordinal()->sep(', ')/]
+  [/if]
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+[/template]
+
+[template public genElement(element : Gate) ? (kind = GateKind::orGate)]
+<tr>
+  <td>[element.ordinal()/]</td>
+  <td>
+  [if (element.inputs->size() > 1)]
+    Ожидается выполнение одного или более шагов [element.inputs.ordinal()->sep(', ')/].
+  [/if]
+  [if (element.outputs->size() = 1)]
+    Переход на шаг [element.outputs->at(1).ordinal()/]
+  [else]
+    Переход на один или несколько шагов [element.outputs.ordinal()->sep(', ')/]
+  [/if]
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+[/template]
+
+[template public genNextStep(element : NamedElement)]
+[let next : ModelElement = element.nextStep()]
+  [if (element.ordinal() + 1 <> next.ordinal())]
+. Переход на шаг [next.ordinal()/]
+  [/if]
+[/let]
+[/template]
+
+
+[query public toKebabCase(str : String) : String = str.toLowerCase().replaceAll('[^a-z0-9]', '-') /]
+
+[query public flowElements(model : Model) : OrderedSet(ModelElement) =
+  model.elements->select(oclIsKindOf(Event) or oclIsKindOf(Function) or oclIsKindOf(Gate)) /]
+
+[query public ordinal(element : ModelElement) : Integer =
+  element.model.flowElements()->indexOf(element) /]
+
+[query public nextStep(element : NamedElement) : ModelElement =
+  let flow : ControlFlow = element.model.elements->selectByKind(ControlFlow)->any(source = element) in
+  if flow <> null then flow.target
+  else element.model.elements->selectByKind(Gate)->any(inputs->includes(element)) endif /]
+
+[query public performer(function : Function) : OrganizationUnit =
+  let p : Participation = function.model.elements->selectByKind(Participation)->
+    any(kind = ParticipationKind::performs and target = function) in
+  if p <> null then p.source else null endif /]
+
+[query public inputInformation(function : Function) : Sequence(Resource) =
+  function.model.elements->selectByKind(InformationFlow)->
+    select(target = function and (kind = InformationFlowKind::inputFor or kind = InformationFlowKind::usedBy)).
+    source->selectByKind(Resource) /]
+
+[query public outputInformation(function : Function) : Sequence(Resource) =
+  function.model.elements->selectByKind(InformationFlow)->
+    select(source = function and (kind = InformationFlowKind::outputs or kind = InformationFlowKind::creates)).
+    target->selectByKind(Resource) /]

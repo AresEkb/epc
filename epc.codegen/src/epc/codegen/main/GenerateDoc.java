@@ -1,6 +1,3 @@
-
-Wed Feb 26 19:22:02 YEKT 2020
-================================================================================
 /*******************************************************************************
  * Copyright (c) 2008, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
@@ -28,28 +25,27 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import epc.EpcPackage;
-import epc.EpcResource;
 import epc.text.EpcStandaloneSetup;
 
 /**
- * Entry point of the 'Generate' generation module.
+ * Entry point of the 'GenerateDoc' generation module.
  *
  * @generated
  */
-public class Generate extends AbstractAcceleoGenerator {
+public class GenerateDoc extends AbstractAcceleoGenerator {
     /**
      * The name of the module.
      *
      * @generated
      */
-    public static final String MODULE_FILE_NAME = "/epc/codegen/main/generate";
+    public static final String MODULE_FILE_NAME = "/epc/codegen/main/generateDoc";
 
     /**
      * The name of the templates that are to be generated.
      *
      * @generated
      */
-    public static final String[] TEMPLATE_NAMES = { "generateJs" };
+    public static final String[] TEMPLATE_NAMES = { "generateDoc" };
 
     /**
      * The list of properties files from the launch parameters (Launch configuration).
@@ -72,7 +68,7 @@ public class Generate extends AbstractAcceleoGenerator {
      *
      * @generated
      */
-    public Generate() {
+    public GenerateDoc() {
         // Empty implementation
     }
 
@@ -92,7 +88,7 @@ public class Generate extends AbstractAcceleoGenerator {
      *             the model cannot be loaded.
      * @generated
      */
-    public Generate(URI modelURI, File targetFolder,
+    public GenerateDoc(URI modelURI, File targetFolder,
             List<? extends Object> arguments) throws IOException {
         initialize(modelURI, targetFolder, arguments);
     }
@@ -113,7 +109,7 @@ public class Generate extends AbstractAcceleoGenerator {
      *             This can be thrown in two scenarios : the module cannot be found, or it cannot be loaded.
      * @generated
      */
-    public Generate(EObject model, File targetFolder,
+    public GenerateDoc(EObject model, File targetFolder,
             List<? extends Object> arguments) throws IOException {
         initialize(model, targetFolder, arguments);
     }
@@ -148,7 +144,7 @@ public class Generate extends AbstractAcceleoGenerator {
                  * add in "arguments" this "String" attribute.
                  */
 
-                Generate generator = new Generate(modelURI, folder, arguments);
+                GenerateDoc generator = new GenerateDoc(modelURI, folder, arguments);
 
                 /*
                  * Add the properties from the launch arguments.
@@ -347,38 +343,6 @@ public class Generate extends AbstractAcceleoGenerator {
     @Override
     public void registerPackages(ResourceSet resourceSet) {
         super.registerPackages(resourceSet);
-
-        /*
-         * If you want to change the content of this method, do NOT forget to change the "@generated"
-         * tag in the Javadoc of this method to "@generated NOT". Without this new tag, any compilation
-         * of the Acceleo module with the main template that has caused the creation of this class will
-         * revert your modifications.
-         */
-
-        /*
-         * If you need additional package registrations, you can register them here. The following line
-         * (in comment) is an example of the package registration for UML.
-         *
-         * You can use the method  "isInWorkspace(Class c)" to check if the package that you are about to
-         * register is in the workspace.
-         *
-         * To register a package properly, please follow the following conventions:
-         *
-         * If the package is located in another plug-in, already installed in Eclipse. The following content should
-         * have been generated at the beginning of this method. Do not register the package using this mechanism if
-         * the metamodel is located in the workspace.
-         *
-         * if (!isInWorkspace(UMLPackage.class)) {
-         *     // The normal package registration if your metamodel is in a plugin.
-         *     resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-         * }
-         *
-         * If the package is located in another project in your workspace, the plugin containing the package has not
-         * been register by EMF and Acceleo should register it automatically. If you want to use the generator in
-         * stand alone, the regular registration (seen a couple lines before) is needed.
-         *
-         * To learn more about Package Registration, have a look at the Acceleo documentation (Help -> Help Contents).
-         */
         if (!isInWorkspace(EpcPackage.class)) {
              resourceSet.getPackageRegistry().put(EpcPackage.eNS_URI, EpcPackage.eINSTANCE);
         }
@@ -394,30 +358,7 @@ public class Generate extends AbstractAcceleoGenerator {
     @Override
     public void registerResourceFactories(ResourceSet resourceSet) {
         super.registerResourceFactories(resourceSet);
-        /*
-         * If you want to change the content of this method, do NOT forget to change the "@generated"
-         * tag in the Javadoc of this method to "@generated NOT". Without this new tag, any compilation
-         * of the Acceleo module with the main template that has caused the creation of this class will
-         * revert your modifications.
-         */
-
-        /*
-         * TODO If you need additional resource factories registrations, you can register them here. the following line
-         * (in comment) is an example of the resource factory registration.
-         *
-         * If you want to use the generator in stand alone, the resource factory registration will be required.
-         *
-         * To learn more about the registration of Resource Factories, have a look at the Acceleo documentation (Help -> Help Contents).
-         */
-
-//        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("epc", EpcResource.Factory.INSTANCE);
-
-        /*
-         * Some metamodels require a very complex setup for standalone usage. For example, if you want to use a generator
-         * targetting UML models in standalone, you NEED to use the following:
-         */
-        // UMLResourcesUtil.init(resourceSet)
-        EpcStandaloneSetup.
+        EpcStandaloneSetup.doSetup();
     }
 
 }

@@ -22,4 +22,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-13
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Export-Package: epc.codegen.main
+Automatic-Module-Name: epc.codegen
 
