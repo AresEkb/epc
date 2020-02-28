@@ -1,21 +1,18 @@
 const codeEvents = new rxjs.Subject();
 
-function run(name, maxDelay) {
-  name = name || 'поступил заказ на автоматизацию разработки';
-  codeEvents.next({
-    name,
-    state: { instanceId: ++instanceId, maxDelay }
-  });
+function run(name) {
+  runEvent(name || 'поступил заказ на автоматизацию разработки',
+    { instanceId: ++instanceId });
 }
 
-function doWork(maxDelay) {
+function doWork() {
   return new Promise(resolve => setTimeout(resolve, maxDelay));
 }
 
 async function runEvent(name, state) {
   const instanceId = state.instanceId;
   events.next({ kind: 'start', name, instanceId });
-  await doWork(state.maxDelay);
+  await doWork();
   events.next({ kind: 'end', name, instanceId });
   codeEvents.next({ name, state })
 }
@@ -24,7 +21,7 @@ async function runFunction(name, state, action) {
   const instanceId = state.instanceId;
   events.next({ kind: 'start', name, instanceId });
   events.next({ kind: 'active', name, instanceId });
-  await doWork(state.maxDelay);
+  await doWork();
   const result = typeof action == 'function' ? action() : null;
   events.next({ kind: 'inactive', name, instanceId });
   events.next({ kind: 'end', name, instanceId });

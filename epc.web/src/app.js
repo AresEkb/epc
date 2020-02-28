@@ -1,6 +1,7 @@
 'use strict';
 
 let instanceId = 0;
+let maxDelay = 500;
 
 const events = new rxjs.Subject();
 
@@ -31,14 +32,19 @@ function raiseEndEvent(d) {
 // });
 
 document.addEventListener('DOMContentLoaded', () => {
+  const delay = document.getElementById('delay');
+  delay.addEventListener('input', () => {
+    maxDelay = +delay.value;
+  });
+
   const log = document.getElementById('log');
-  log.value += ['Case ID', 'dd-MM-yyyy:HH.mm', 'Activity'].join(';') + '\n';
+  log.value += ['timestamp', 'case', 'activity'].join(';') + '\n';
   events.pipe(rxjs.operators.filter(ev => ev.kind == 'start'))
     .subscribe({
       next: ev => {
         const values = [
-          ev.instanceId,
           new Date().toISOString(),
+          ev.instanceId,
           ev.name
         ];
         log.value += values.join(';') + '\n';
