@@ -27,8 +27,6 @@ function toSnakeCase(str) {
   return str.replace(/[A-Z]/, d => '-' + d.toLowerCase());
 }
 
-const log = console.log;
-
 document.addEventListener('DOMContentLoaded', () => {
 
   const svg = d3.select('#epc-diagram')

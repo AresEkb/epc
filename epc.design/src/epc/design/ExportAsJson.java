@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
 import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
@@ -63,7 +64,7 @@ public class ExportAsJson extends AbstractExternalJavaAction {
             rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new JsonResourceFactory());
             var uri = URI.createFileURI(new File(fileName).getAbsolutePath());
             var res = rs.createResource(uri);
-            res.getContents().addAll(model);
+            res.getContents().addAll(EcoreUtil.copyAll(model));
             res.getContents().addAll(result);
             var options = new HashMap<Object, Object>();
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");

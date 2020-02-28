@@ -6,7 +6,6 @@
 [file (model.name.toKebabCase() + '.js', false, 'utf-8')]
 const codeEvents = new rxjs.Subject();
 
-let instanceId = 0;
 function run(name, maxDelay) {
   name = name || '[model.initialEvent().name/]';
   codeEvents.next({
@@ -20,19 +19,21 @@ function doWork(maxDelay) {
 }
 
 async function runEvent(name, state) {
-  events.next({ kind: 'start', name });
+  const instanceId = state.instanceId;
+  events.next({ kind: 'start', name, instanceId });
   await doWork(state.maxDelay);
-  events.next({ kind: 'end', name });
+  events.next({ kind: 'end', name, instanceId });
   codeEvents.next({ name, state })
 }
 
 async function runFunction(name, state, action) {
-  events.next({ kind: 'start', name });
-  events.next({ kind: 'active', name });
+  const instanceId = state.instanceId;
+  events.next({ kind: 'start', name, instanceId });
+  events.next({ kind: 'active', name, instanceId });
   await doWork(state.maxDelay);
   const result = typeof action == 'function' ? action() : null;
-  events.next({ kind: 'inactive', name });
-  events.next({ kind: 'end', name });
+  events.next({ kind: 'inactive', name, instanceId });
+  events.next({ kind: 'end', name, instanceId });
   codeEvents.next({ name, state, result })
 }
 
@@ -40,13 +41,13 @@ codeEvents.subscribe({
   next: ev => {
     switch (ev.name) {
   [for (flow : ControlFlow | model.elements->selectByKind(ControlFlow))]
-      case '[flow.source.name/]':
+      case '[flow.source.eventName()/]':
         [genNamedElement(flow.target, 'ev.state')/]
         break;
   [/for]
   [for (gate : Gate | model.elements->selectByKind(Gate))]
     [for (input : NamedElement | gate.inputs)]
-      case '[input.name/]':
+      case '[input.eventName()/]':
     [/for]
         [genGate(gate)/]
         break;
@@ -57,46 +58,48 @@ codeEvents.subscribe({
 [/file]
 [/template]
 
+[comment ********** События и функции **************************************** /]
 
 [template public genNamedElement(element : NamedElement, state : String)]
   // ERROR: Not implemented
 [/template]
 
 [template public genNamedElement(element : Event, state : String)]
-runEvent('[element.name/]', [state/]);
+runEvent('[element.eventName()/]', [state/]);
 [/template]
 
 [template public genNamedElement(element : Function, state : String) post (trim())]
   [let gate : Gate = model.elements->selectByKind(Gate)->any(inputs->includes(element))]
     [if (gate.outputs->size() > 1)]
       [if (gate.kind = GateKind::andGate)]
-runFunction('[element.name/]', [state/]);
+runFunction('[element.eventName()/]', [state/]);
       [elseif (gate.kind = GateKind::xorGate)]
-runFunction('[element.name/]', [state/], () => {
+runFunction('[element.eventName()/]', [state/], () => {
   const rnd = Math.round(Math.random() * [gate.outputs->size() - 1/]);
-  const results = ['['/][gate.outputs->collect(name.quote())->sep(', ')/][']'/];
+  const results = ['['/][gate.outputs.eventName().quote()->sep(', ')/][']'/];
   return results['['/]rnd[']'/];
 });
       [elseif (gate.kind = GateKind::orGate)]
-runFunction('[element.name/]', [state/], () => {
+runFunction('[element.eventName()/]', [state/], () => {
   const rnd = Math.round(Math.random() * [2.pow(gate.outputs->size()) - 2/]) + 1;
   const result = new Set();
         [for (output : NamedElement | gate.outputs)]
   if (rnd & [2.pow(i - 1)/]) {
-    result.add('[output.name/]');
+    result.add('[output.eventName()/]');
   }
         [/for]
   return result;
 });
       [/if]
     [else]
-runFunction('[element.name/]', [state/]);
+runFunction('[element.eventName()/]', [state/]);
     [/if]
   [else]
-runFunction('[element.name/]', [state/]);
+runFunction('[element.eventName()/]', [state/]);
   [/let]
 [/template]
 
+[comment ********** Шлюз "И" **************************************** /]
 
 [template public genGate(gate : Gate) ? (kind = GateKind::andGate) post (trim())]
   [if (gate.inputs->size() = 1)]
@@ -114,7 +117,7 @@ if (ev.state.waitSet.size == 0) {
   [if (gate.outputs->size() = 1)]
 [genNamedElement(gate.outputs->at(1), 'ev.state')/]
   [else]
-const waitSet = new Set(['['/][gate.outputs->collect(findBranchEnd().name.quote())->sep(', ')/][']'/]);
+const waitSet = new Set(['['/][gate.outputs.findBranchEnd().eventName().quote()->sep(', ')/][']'/]);
 const state = { ...ev.state, waitSet };
     [for (output : NamedElement | gate.outputs)]
 [genNamedElement(output, 'state')/]
@@ -122,6 +125,7 @@ const state = { ...ev.state, waitSet };
   [/if]
 [/template]
 
+[comment ********** Шлюз "Исключающее ИЛИ" **************************************** /]
 
 [template public genGate(gate : Gate) ? (kind = GateKind::xorGate) post (trim())]
   [if (gate.outputs->size() = 1)]
@@ -129,7 +133,7 @@ const state = { ...ev.state, waitSet };
   [else]
 switch (ev.result) {
     [for (output : NamedElement | gate.outputs)]
-  case '[output.name/]':
+  case '[output.eventName()/]':
     [genNamedElement(output, 'ev.state')/]
     break;
     [/for]
@@ -137,6 +141,7 @@ switch (ev.result) {
   [/if]
 [/template]
 
+[comment ********** Шлюз "ИЛИ" **************************************** /]
 
 [template public genGate(gate : Gate) ? (kind = GateKind::orGate) post (trim())]
   [if (gate.inputs->size() = 1)]
@@ -157,15 +162,15 @@ if (ev.state.waitSet.size == 0) {
 {
   const waitSet = new Set();
     [for (output : NamedElement | gate.outputs)]
-  if (ev.result.has('[output.name/]')) {
-    waitSet.add('[output.findBranchEnd().name/]');
+  if (ev.result.has('[output.eventName()/]')) {
+    waitSet.add('[output.findBranchEnd().eventName()/]');
   }
     [/for]
   const state = { ...ev.state, waitSet };
   for (const res of ev.result) {
     switch (res) {
     [for (output : NamedElement | gate.outputs)]
-      case '[output.name/]':
+      case '[output.eventName()/]':
         [genNamedElement(output, 'state')/]
         break;
     [/for]
@@ -174,6 +179,26 @@ if (ev.state.waitSet.size == 0) {
 }
   [/if]
 [/template]
+
+[comment ********** Разное **************************************** /]
+
+[query public eventName(element : NamedElement) : String = element.name /]
+
+[comment]
+
+[query public eventName(element : NamedElement) : String =
+  if element.oclIsKindOf(Event) then element.oclAsType(Event).eventName() else
+  if element.oclIsKindOf(Function) then element.oclAsType(Function).eventName() else null endif endif /]
+
+[query public eventName(element : Event) : String =
+  element.name.toUpperFirst() /]
+
+[query public eventName(element : Function) : String =
+  let performer : OrganizationUnit = element.performer() in
+  if performer <> null then performer.name.toUpperFirst()
+  else 'Участник' endif + ' ' + element.name /]
+
+[/comment]
 
 [comment ********** Строковые функции **************************************** /]
 
@@ -194,3 +219,8 @@ if (ev.state.waitSet.size == 0) {
 [query public findBranchEnd(element : NamedElement) : NamedElement =
   let connection : Connection = element.model.elements->selectByKind(Connection)->any(source = element) in
   if connection <> null then connection.target.findBranchEnd() else element endif /]
+
+[query public performer(function : Function) : OrganizationUnit =
+  let p : Participation = function.model.elements->selectByKind(Participation)->
+    any(kind = ParticipationKind::performs and target = function) in
+  if p <> null then p.source else null endif /]

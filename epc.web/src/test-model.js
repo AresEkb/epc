@@ -1,8 +1,7 @@
 const codeEvents = new rxjs.Subject();
 
-let instanceId = 0;
 function run(name, maxDelay) {
-  name = name || 'Поступил заказ на автоматизацию разработки';
+  name = name || 'поступил заказ на автоматизацию разработки';
   codeEvents.next({
     name,
     state: { instanceId: ++instanceId, maxDelay }
@@ -14,113 +13,115 @@ function doWork(maxDelay) {
 }
 
 async function runEvent(name, state) {
-  events.next({ kind: 'start', name });
+  const instanceId = state.instanceId;
+  events.next({ kind: 'start', name, instanceId });
   await doWork(state.maxDelay);
-  events.next({ kind: 'end', name });
+  events.next({ kind: 'end', name, instanceId });
   codeEvents.next({ name, state })
 }
 
 async function runFunction(name, state, action) {
-  events.next({ kind: 'start', name });
-  events.next({ kind: 'active', name });
+  const instanceId = state.instanceId;
+  events.next({ kind: 'start', name, instanceId });
+  events.next({ kind: 'active', name, instanceId });
   await doWork(state.maxDelay);
   const result = typeof action == 'function' ? action() : null;
-  events.next({ kind: 'inactive', name });
-  events.next({ kind: 'end', name });
+  events.next({ kind: 'inactive', name, instanceId });
+  events.next({ kind: 'end', name, instanceId });
   codeEvents.next({ name, state, result })
 }
 
 codeEvents.subscribe({
   next: ev => {
     switch (ev.name) {
-      case 'Анализирует требования':
-        runEvent('Требования проанализированы', ev.state);
+      case 'анализирует требования':
+        runEvent('требования проанализированы', ev.state);
         break;
-      case 'Требования проанализированы':
-        runFunction('Выбирает подходящую метамодель', ev.state, () => {
+      case 'требования проанализированы':
+        runFunction('выбирает подходящую метамодель', ev.state, () => {
           const rnd = Math.round(Math.random() * 2) + 1;
           const result = new Set();
           if (rnd & 1) {
-            result.add('Требуемой метамодели нет');
+            result.add('метамодель выбрана');
           }
           if (rnd & 2) {
-            result.add('Метамодель выбрана');
+            result.add('требуемой метамодели нет');
           }
           return result;
         });
         break;
-      case 'Требуемой метамодели нет':
-        runFunction('Разрабатывает метамодель', ev.state);
+      case 'требуемой метамодели нет':
+        runFunction('разрабатывает метамодель', ev.state);
         break;
-      case 'Разрабатывает метамодель':
-        runEvent('Метамодель разработана', ev.state);
+      case 'разрабатывает метамодель':
+        runEvent('метамодель разработана', ev.state);
         break;
-      case 'Разрабатывает инструментарий':
-        runEvent('Разработка инструмента автоматизации завершена', ev.state);
+      case 'принимает решение об использовании метамодели':
+        runFunction('разрабатывает инструментарий', ev.state);
         break;
-      case 'Принимает решение об использовании метамодели':
-        runFunction('Разрабатывает инструментарий', ev.state);
+      case 'разрабатывает инструментарий':
+        runEvent('разработка инструмента автоматизации завершена', ev.state);
         break;
-      case 'Разработка инструмента автоматизации завершена':
-        const waitSet = new Set(['Оценивает результат', 'Демонстрирует результат']);
-        const state = { ...ev.state, waitSet };
-        runFunction('Оценивает результат', state);
-        runFunction('Демонстрирует результат', state);
+      case 'поступил заказ на автоматизацию разработки':
+      case 'требования уточнены':
+        runFunction('анализирует требования', ev.state);
         break;
-      case 'Оценивает результат':
-      case 'Демонстрирует результат':
-        ev.state.waitSet.delete(ev.name);
-        if (ev.state.waitSet.size == 0) {
-          delete ev.state.waitSet;
-          runFunction('Подводит итоги испытаний', ev.state, () => {
-            const rnd = Math.round(Math.random() * 1);
-            const results = ['Заказ выполнен', 'Требования уточнены'];
-            return results[rnd];
-          });
-        }
-        break;
-      case 'Поступил заказ на автоматизацию разработки':
-      case 'Требования уточнены':
-        runFunction('Анализирует требования', ev.state);
-        break;
-      case 'Подводит итоги испытаний':
-        switch (ev.result) {
-          case 'Заказ выполнен':
-            runEvent('Заказ выполнен', ev.state);
-            break;
-          case 'Требования уточнены':
-            runEvent('Требования уточнены', ev.state);
-            break;
-        }
-        break;
-      case 'Метамодель разработана':
-      case 'Метамодель выбрана':
-        ev.state.waitSet.delete(ev.name);
-        if (ev.state.waitSet.size == 0) {
-          delete ev.state.waitSet;
-          runFunction('Принимает решение об использовании метамодели', ev.state);
-        }
-        break;
-      case 'Выбирает подходящую метамодель':
+      case 'выбирает подходящую метамодель':
         {
           const waitSet = new Set();
-          if (ev.result.has('Требуемой метамодели нет')) {
-            waitSet.add('Метамодель разработана');
+          if (ev.result.has('метамодель выбрана')) {
+            waitSet.add('метамодель выбрана');
           }
-          if (ev.result.has('Метамодель выбрана')) {
-            waitSet.add('Метамодель выбрана');
+          if (ev.result.has('требуемой метамодели нет')) {
+            waitSet.add('метамодель разработана');
           }
           const state = { ...ev.state, waitSet };
           for (const res of ev.result) {
             switch (res) {
-              case 'Требуемой метамодели нет':
-                runEvent('Требуемой метамодели нет', state);
+              case 'метамодель выбрана':
+                runEvent('метамодель выбрана', state);
                 break;
-              case 'Метамодель выбрана':
-                runEvent('Метамодель выбрана', state);
+              case 'требуемой метамодели нет':
+                runEvent('требуемой метамодели нет', state);
                 break;
             }
           }
+        }
+        break;
+      case 'метамодель выбрана':
+      case 'метамодель разработана':
+        ev.state.waitSet.delete(ev.name);
+        if (ev.state.waitSet.size == 0) {
+          delete ev.state.waitSet;
+          runFunction('принимает решение об использовании метамодели', ev.state);
+        }
+        break;
+      case 'разработка инструмента автоматизации завершена':
+        const waitSet = new Set(['демонстрирует результат', 'оценивает результат']);
+        const state = { ...ev.state, waitSet };
+        runFunction('демонстрирует результат', state);
+        runFunction('оценивает результат', state);
+        break;
+      case 'демонстрирует результат':
+      case 'оценивает результат':
+        ev.state.waitSet.delete(ev.name);
+        if (ev.state.waitSet.size == 0) {
+          delete ev.state.waitSet;
+          runFunction('подводит итоги испытаний', ev.state, () => {
+            const rnd = Math.round(Math.random() * 1);
+            const results = ['требования уточнены', 'заказ выполнен'];
+            return results[rnd];
+          });
+        }
+        break;
+      case 'подводит итоги испытаний':
+        switch (ev.result) {
+          case 'требования уточнены':
+            runEvent('требования уточнены', ev.state);
+            break;
+          case 'заказ выполнен':
+            runEvent('заказ выполнен', ev.state);
+            break;
         }
         break;
     }

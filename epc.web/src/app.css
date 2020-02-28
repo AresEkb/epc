@@ -44,7 +44,9 @@ text {
 }
 
 #log {
-  font-size: 8px;
+  width: 70%;
+  height: 500px;
+  font-size: 10px;
 }
 
 .link {

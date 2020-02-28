@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       else {
         if (++d.count == 1) {
+          instanceId++;
           raiseStartEvent(d);
         }
       }

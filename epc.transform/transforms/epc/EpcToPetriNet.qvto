@@ -470,8 +470,25 @@ query EPC::ModelElement::findSourceOrGate() : EPC::Gate =
     if connection <> null then connection.source.findSourceOrGate()
     else self.model.elements[Gate]->any(kind = EPC::GateKind::orGate and outputs->includes(self)) endif;
 
+query Function::performer() : OrganizationUnit =
+  let p : Participation = self.model.elements->selectByKind(Participation)->
+    any(kind = ParticipationKind::performs and target = self) in
+  if p <> null then p.source.oclAsType(OrganizationUnit) else null endif;
+
 query Model::toName() : PN::Name =
     object PN::Name { text := self.name };
 
 query NamedElement::toName() : PN::Name =
     object PN::Name { text := self.name };
+
+//query NamedElement::toName() : PN::Name =
+//    object PN::Name { text := self.name.toUpperFirst() };
+//
+//query Function::toName() : PN::Name =
+//    let performer : OrganizationUnit = self.performer() in
+//    object PN::Name {
+//        text := if performer <> null then performer.name.toUpperFirst() else 'Участник' endif + ' ' + self.name
+//    };
+//
+//query String::toUpperFirst() : String =
+//    self.substring(1, 1).toUpperCase() + self.substring(2, self.size());
