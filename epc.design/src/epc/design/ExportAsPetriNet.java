@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
 import org.pnml.tools.epnk.pnmlcoremodel.PnmlcoremodelPackage;
 
+import fr.lip6.move.pnml.framework.general.PnmlExport;
+
 public class ExportAsPetriNet extends AbstractExternalJavaAction {
 
     @Override
@@ -56,18 +58,18 @@ public class ExportAsPetriNet extends AbstractExternalJavaAction {
         try {
             List<? extends EObject> result = transformModel(transformation, item.getTarget().eResource().getContents());
 
-            PnmlcoremodelPackage.eINSTANCE.getEFactoryInstance();
-            var rs = new ResourceSetImpl();
-            var uri = URI.createFileURI(new File(fileName).getAbsolutePath());
-            var res = rs.createResource(uri);
-            res.getContents().addAll(result);
-            var options = new HashMap<Object, Object>();
-            options.put(XMLResource.OPTION_ENCODING, "UTF-8");
-            res.save(options);
-            res.unload();
+//            PnmlcoremodelPackage.eINSTANCE.getEFactoryInstance();
+//            var rs = new ResourceSetImpl();
+//            var uri = URI.createFileURI(new File(fileName).getAbsolutePath());
+//            var res = rs.createResource(uri);
+//            res.getContents().addAll(result);
+//            var options = new HashMap<Object, Object>();
+//            options.put(XMLResource.OPTION_ENCODING, "UTF-8");
+//            res.save(options);
+//            res.unload();
 
-//            var exporter = new PnmlExport();
-//            exporter.exportObject(result.get(0), fileName, true);
+            var exporter = new PnmlExport();
+            exporter.exportObject(result.get(0), fileName, true);
         }
         catch (Exception e) {
             // TODO Auto-generated catch block

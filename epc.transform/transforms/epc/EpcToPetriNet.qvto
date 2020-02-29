@@ -1,9 +1,7 @@
 import Helpers;
 
 modeltype EPC uses 'http://www.example.org/epc';
-modeltype PN uses 'http://org.pnml.tools/epnk/pnmlcoremodel';
-modeltype PT uses 'http://org.pnml.tools/epnk/types/ptnet';
-modeltype PDT uses 'http://org.pnml.tools/epnk/datatypes';
+modeltype PN uses 'http:///ptnet.ecore';
 
 transformation EpcToPetriNet(in epc : EPC, out pn : PN);
 
@@ -14,20 +12,20 @@ main()
 
 mapping EPC::Model::toPetriNet() : PN::PetriNetDoc
 {
-    net := object PN::PetriNet {
-        type := object PT::PTNet { };
+    nets := object PN::PetriNet {
+        type := PNType::PTNET;
         id := 'model'.uniqueId();
         name := self.toName();
-        page := object PN::Page {
+        pages := object PN::Page {
             id := 'page'.uniqueId();
             name := self.toName();
-            _object := self.elements->toNode();
+            objects := self.elements->toNode();
             // All nodes are mapped already, so we can use non-late resolve in the following mappings
             self.elements->toObjects()->forEach (objs) {
-                _object += objs;
+                objects += objs;
             };
             self.elements[EPC::Gate]->toOrSync()->forEach (objs) {
-                _object += objs;
+                objects += objs;
             };
         };
     };
@@ -40,14 +38,14 @@ disjuncts
 {
 }
 
-mapping EPC::Event::toPlace() : PT::Place
+mapping EPC::Event::toPlace() : PN::Place
 {
     id := 'p'.uniqueId();
     name := self.toName();
     if (not self.model.elements[EPC::Connection]->exists(target = self) and
         not self.model.elements[EPC::Gate]->exists(outputs->includes(self))) {
-        initialMarking := object PT::PTMarking {
-            text := new PDT::NonNegativeInteger('1');
+        initialMarking := object PN::PTMarking {
+            text := 1;
         };
     };
 }
@@ -58,7 +56,7 @@ mapping EPC::Function::toTransition() : PN::Transition
     name := self.toName();
 }
 
-mapping EPC::ModelElement::toObjects() : List(PN::Object)
+mapping EPC::ModelElement::toObjects() : List(PN::PnObject)
 disjuncts
     EPC::ControlFlow::toArc,
     EPC::Gate::toAnd,
@@ -67,7 +65,7 @@ disjuncts
 {
 }
 
-mapping EPC::ControlFlow::toArc() : List(PN::Object)
+mapping EPC::ControlFlow::toArc() : List(PN::PnObject)
 {
     if (self.source.oclIsKindOf(Event) and self.target.oclIsKindOf(Event)) {
         var transition := object PN::Transition {
@@ -110,7 +108,7 @@ mapping EPC::ControlFlow::toArc() : List(PN::Object)
     }
 }
 
-mapping EPC::Gate::toAnd() : List(PN::Object)
+mapping EPC::Gate::toAnd() : List(PN::PnObject)
 when { self.kind = EPC::GateKind::andGate }
 {
     var mainNode : PN::Transition;
@@ -188,7 +186,7 @@ when { self.kind = EPC::GateKind::andGate }
     };
 }
 
-mapping EPC::Gate::toXor() : List(PN::Object)
+mapping EPC::Gate::toXor() : List(PN::PnObject)
 when { self.kind = EPC::GateKind::xorGate }
 {
     var mainNode : PN::Place;
@@ -266,7 +264,7 @@ when { self.kind = EPC::GateKind::xorGate }
     };
 }
 
-mapping EPC::Gate::toOr() : List(PN::Object)
+mapping EPC::Gate::toOr() : List(PN::PnObject)
 when { self.kind = EPC::GateKind::orGate }
 {
     var mainNode : PN::Place;
@@ -436,7 +434,7 @@ mapping EPC::Gate::toOrJoinTransition(i : Integer) : PN::Transition
 // https://researcher.watson.ibm.com/researcher/files/zurich-hvo/bpm-2012.pdf
 // Or-joins should be implemented differently
 // In some scenarios they can't be implemented in a Petri net at all
-mapping EPC::Gate::toOrSync() : List(PN::Object)
+mapping EPC::Gate::toOrSync() : List(PN::PnObject)
 when { self.kind = EPC::GateKind::orGate and self.inputs->size() > 1 }
 {
     var sourceOrGates := self.inputs->collect(findSourceOrGate())->asOrderedSet();
