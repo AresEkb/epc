@@ -1,5 +1,6 @@
 function isPnmlObject(obj, eClassName) {
-  return obj.eClass == 'http://org.pnml.tools/epnk/pnmlcoremodel#//' + eClassName;
+  // return obj.eClass == 'http://org.pnml.tools/epnk/pnmlcoremodel#//' + eClassName;
+  return obj.eClass == 'http:///ptnet.ecore#//' + eClassName;
 }
 
 function isPnObject(obj, eClassName) {
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const root of model) {
       if (isPnmlObject(root, 'PetriNetDoc')) {
-        for (const obj of root.net[0].page[0].object) {
+        for (const obj of root.nets[0].pages[0].objects) {
           if (isPlace(obj)) {
             nodes.push({
               kind: 'place',

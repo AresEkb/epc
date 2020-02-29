@@ -433,734 +433,1093 @@
     }
   } ]
 }, {
-  "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//PetriNetDoc",
-  "net" : [ {
+  "eClass" : "http:///ptnet.ecore#//PetriNetDoc",
+  "nets" : [ {
     "id" : "model1",
-    "type" : {
-      "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//PTNet"
-    },
-    "name" : {
-      "text" : "Test model"
-    },
-    "page" : [ {
+    "pages" : [ {
       "id" : "page1",
       "name" : {
         "text" : "Test model"
       },
-      "object" : [ {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+      "objects" : [ {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t1",
+        "name" : {
+          "text" : "анализирует требования"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a5"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a6"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t6",
+        "name" : {
+          "text" : "демонстрирует результат"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a30"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a34"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t4",
+        "name" : {
+          "text" : "принимает решение об использовании метамодели"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a25"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a26"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p8",
+        "name" : {
+          "text" : "заказ выполнен"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a41"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t2",
+        "name" : {
+          "text" : "выбирает подходящую метамодель"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a7"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a8"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p7",
+        "name" : {
+          "text" : "требования уточнены"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a39"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a3"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p3",
+        "name" : {
+          "text" : "метамодель выбрана"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a12"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a13"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a21"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a22"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t7",
+        "name" : {
+          "text" : "оценивает результат"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a32"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a36"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t5",
+        "name" : {
+          "text" : "разрабатывает инструментарий"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a27"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a28"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t3",
+        "name" : {
+          "text" : "разрабатывает метамодель"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a16"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a17"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p6",
+        "name" : {
+          "text" : "разработка инструмента автоматизации завершена"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a28"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a29"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p2",
+        "name" : {
+          "text" : "требования проанализированы"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a6"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a7"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p5",
+        "name" : {
+          "text" : "метамодель разработана"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a17"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a23"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a24"
+        } ]
+      }, {
+        "eClass" : "http:///ptnet.ecore#//Place",
         "id" : "p1",
         "name" : {
           "text" : "поступил заказ на автоматизацию разработки"
         },
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a1"
+        } ],
         "initialMarking" : {
-          "text" : {
-            "value" : 1
-          }
+          "text" : 1
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t1",
-        "name" : {
-          "text" : "анализирует требования"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p2",
-        "name" : {
-          "text" : "требования проанализированы"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t2",
-        "name" : {
-          "text" : "выбирает подходящую метамодель"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p3",
-        "name" : {
-          "text" : "метамодель выбрана"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p4",
-        "name" : {
-          "text" : "требуемой метамодели нет"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t3",
-        "name" : {
-          "text" : "разрабатывает метамодель"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p5",
-        "name" : {
-          "text" : "метамодель разработана"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t4",
-        "name" : {
-          "text" : "принимает решение об использовании метамодели"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t5",
-        "name" : {
-          "text" : "разрабатывает инструментарий"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p6",
-        "name" : {
-          "text" : "разработка инструмента автоматизации завершена"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t6",
-        "name" : {
-          "text" : "демонстрирует результат"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t7",
-        "name" : {
-          "text" : "оценивает результат"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+        "eClass" : "http:///ptnet.ecore#//Transition",
         "id" : "t8",
         "name" : {
           "text" : "подводит итоги испытаний"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a35"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a37"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a38"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p7",
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p4",
         "name" : {
-          "text" : "требования уточнены"
-        }
+          "text" : "требуемой метамодели нет"
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a14"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a15"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a16"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
-        "id" : "p8",
-        "name" : {
-          "text" : "заказ выполнен"
-        }
-      }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+        "eClass" : "http:///ptnet.ecore#//Place",
         "id" : "p9",
         "name" : {
           "text" : "Xor"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a2"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a4"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a5"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t9"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t9",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a1"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a2"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a1",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p1"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t9"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a2",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t9"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p9"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t10"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t10",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a3"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a4"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a3",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p7"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t10"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a4",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t10"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p9"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a5",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p9"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t1"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a6",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t1"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p2"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a7",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p2"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t2"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+        "eClass" : "http:///ptnet.ecore#//Place",
         "id" : "p10",
         "name" : {
           "text" : "Or"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a8"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a9"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a10"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a11"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a8",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t2"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p10"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t11"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t11",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a9"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a12"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a43"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t12"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t12",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a10"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a14"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a45"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t13"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t13",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a11"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a13"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a15"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a47"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a9",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p10"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t11"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a10",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p10"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t12"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a11",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p10"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t13"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a12",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t11"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p3"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a13",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t13"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p3"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a14",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t12"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p4"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a15",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t13"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p4"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a16",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p4"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t3"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a17",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t3"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p5"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+        "eClass" : "http:///ptnet.ecore#//Place",
         "id" : "p11",
         "name" : {
           "text" : "Or"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a18"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a19"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a20"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a25"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t14"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t14",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a21"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a44"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a18"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t15"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t15",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a23"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a46"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a19"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t16"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t16",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a22"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a24"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a48"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a20"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a18",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t14"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p11"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a19",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t15"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p11"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a20",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t16"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p11"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a21",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p3"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t14"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a22",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p3"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t16"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a23",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p5"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t15"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a24",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p5"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t16"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a25",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p11"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t4"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p12"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p12",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a26"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a27"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a26",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t4"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p12"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a27",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p12"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t5"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a28",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t5"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p6"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+        "eClass" : "http:///ptnet.ecore#//Transition",
         "id" : "t17",
         "name" : {
           "text" : "And"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a29"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a31"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a33"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a29",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p6"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t17"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p13"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p13",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a31"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a30"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a30",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p13"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t6"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a31",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t17"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p13"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p14"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p14",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a33"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a32"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a32",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p14"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t7"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a33",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t17"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p14"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p15"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p15",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a34"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a35"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a34",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t6"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p15"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a35",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p15"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t8"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p16"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p16",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a36"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a37"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a36",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t7"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p16"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a37",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p16"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t8"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+        "eClass" : "http:///ptnet.ecore#//Place",
         "id" : "p17",
         "name" : {
           "text" : "Xor"
-        }
+        },
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a38"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a40"
+        }, {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a42"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a38",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t8"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p17"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t18"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t18",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a40"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a39"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a39",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t18"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p7"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a40",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p17"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t18"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
-        "id" : "t19"
+        "eClass" : "http:///ptnet.ecore#//Transition",
+        "id" : "t19",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a42"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a41"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a41",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t19"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/types/ptnet#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p8"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a42",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p17"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t19"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p18"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p18",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a43"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a44"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a43",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t11"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p18"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a44",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p18"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t14"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p19"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p19",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a45"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a46"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a45",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t12"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p19"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a46",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p19"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t15"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
-        "id" : "p20"
+        "eClass" : "http:///ptnet.ecore#//Place",
+        "id" : "p20",
+        "InArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a47"
+        } ],
+        "OutArcs" : [ {
+          "eClass" : "http:///ptnet.ecore#//Arc",
+          "$ref" : "a48"
+        } ]
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a47",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t13"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p20"
         }
       }, {
-        "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Arc",
+        "eClass" : "http:///ptnet.ecore#//Arc",
         "id" : "a48",
         "source" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Place",
+          "eClass" : "http:///ptnet.ecore#//Place",
           "$ref" : "p20"
         },
         "target" : {
-          "eClass" : "http://org.pnml.tools/epnk/pnmlcoremodel#//Transition",
+          "eClass" : "http:///ptnet.ecore#//Transition",
           "$ref" : "t16"
         }
       } ]
-    } ]
+    } ],
+    "name" : {
+      "text" : "Test model"
+    }
   } ]
 } ]
