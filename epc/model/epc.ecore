@@ -49,7 +49,8 @@
       <details key="AtLeastOneFunction" value="Tuple {&#xA;  message = 'Either inputs or outputs of a gate should be functions',&#xA;  status = inputs->exists(oclIsKindOf(Function)) or outputs->exists(oclIsKindOf(Function)),&#xA;  severity = -1&#xA;}.status"/>
       <details key="TrggerSingleFunction" value="Tuple {&#xA;  message = 'Or (xor) gate should trigger at most one function',&#xA;  status = (kind = GateKind::orGate or kind = GateKind::xorGate implies outputs->selectByKind(Function)->size() &lt;= 1),&#xA;  severity = -1&#xA;}.status"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//GateKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//GateKind"
+        defaultValueLiteral="and"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" lowerBound="1"
         upperBound="-1" eType="#//NamedElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" lowerBound="1"

@@ -220,4 +220,4 @@ if (ev.state.waitSet.size == 0) {
 [query public performer(function : Function) : OrganizationUnit =
   let p : Participation = function.model.elements->selectByKind(Participation)->
     any(kind = ParticipationKind::performs and target = function) in
-  if p <> null then p.source else null endif /]
+  if p <> null then p.source.oclAsType(OrganizationUnit) else null endif /]

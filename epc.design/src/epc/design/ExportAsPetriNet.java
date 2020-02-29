@@ -1,9 +1,7 @@
 package epc.design;
 
-import java.io.File;
 import java.io.OutputStreamWriter;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +9,6 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.qvt.oml.BasicModelExtent;
 import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
 import org.eclipse.m2m.qvt.oml.TransformationExecutor;
@@ -22,7 +18,6 @@ import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
-import org.pnml.tools.epnk.pnmlcoremodel.PnmlcoremodelPackage;
 
 import fr.lip6.move.pnml.framework.general.PnmlExport;
 
